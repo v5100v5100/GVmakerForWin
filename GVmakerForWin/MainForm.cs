@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace GVmakerForWin
 {
-    public partial class MainForm : Form
+     partial class MainForm : Form
     {
-        public MainForm()
+         MainForm()
         {
             InitializeComponent();
         }

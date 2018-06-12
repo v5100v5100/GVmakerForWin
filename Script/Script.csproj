@@ -39,11 +39,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interpreter\Event\Area.cs" />
+    <Compile Include="Interpreter\Event\ScreenChangeListener.cs" />
+    <Compile Include="Interpreter\Ram\Accessable.cs" />
+    <Compile Include="Interpreter\Ram\Getable.cs" />
+    <Compile Include="Interpreter\Ram\Ram.cs" />
+    <Compile Include="Interpreter\Ram\RelativeRam.cs" />
+    <Compile Include="Interpreter\Ram\Setable.cs" />
+    <Compile Include="Interpreter\Renderable.cs" />
+    <Compile Include="Interpreter\ScreenModel.cs" />
+    <Compile Include="Interpreter\ScreenModelImp.cs" />
+    <Compile Include="Interpreter\VirtualMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Compiler\" />
-    <Folder Include="Interpreter\" />
+    <Folder Include="Interpreter\IO\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
