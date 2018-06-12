@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GVmakerForWin", "GVmakerForWin\GVmakerForWin.csproj", "{FA6C73BE-AC9E-4C8E-AE49-37C60487BE9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Script", "Script\Script.csproj", "{578089EA-D7E3-42D4-83D1-AE859D3ECCE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA6C73BE-AC9E-4C8E-AE49-37C60487BE9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6C73BE-AC9E-4C8E-AE49-37C60487BE9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA6C73BE-AC9E-4C8E-AE49-37C60487BE9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA6C73BE-AC9E-4C8E-AE49-37C60487BE9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{578089EA-D7E3-42D4-83D1-AE859D3ECCE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{578089EA-D7E3-42D4-83D1-AE859D3ECCE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{578089EA-D7E3-42D4-83D1-AE859D3ECCE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{578089EA-D7E3-42D4-83D1-AE859D3ECCE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
