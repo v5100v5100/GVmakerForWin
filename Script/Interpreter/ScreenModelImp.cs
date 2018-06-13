@@ -15,12 +15,12 @@ namespace Script.Interpreter
             throw new NotImplementedException();
         }
 
-         void drawString(int x, int y, Ram.Getable source, int addr)
+         void drawstring(int x, int y, Ram.Getable source, int addr)
         {
             throw new NotImplementedException();
         }
 
-         void drawString(int x, int y, Ram.Getable source, int addr, int length)
+         void drawstring(int x, int y, Ram.Getable source, int addr, int length)
         {
             throw new NotImplementedException();
         }

@@ -5,8 +5,16 @@ using System.Text;
 
 namespace Script.Interpreter.Event
 {
-     interface ScreenChangeListener
+    /// <summary>
+    /// 
+    /// </summary>
+    interface ScreenChangeListener
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="screenModel"></param>
+        /// <param name="area"></param>
         void screenChanged(ScreenModel screenModel, Area area);
     }
 }

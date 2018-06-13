@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Script.Interpreter.Ram
 {
-     interface Setable
+    public interface Setable
     {
         void setByte(int addr, byte b);
     }

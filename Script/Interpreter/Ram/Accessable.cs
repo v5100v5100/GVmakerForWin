@@ -5,7 +5,10 @@ using System.Text;
 
 namespace Script.Interpreter.Ram
 {
-     interface Accessable : Getable, Setable
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface Accessable : Getable, Setable
     {
 
     }

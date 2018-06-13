@@ -48,7 +48,7 @@ namespace Script.Interpreter
     /**
      * 通知屏幕监听器
      */
-      void fireScreenChanged() {
+     public void fireScreenChanged() {
         for (int index = 0; index < lis.Length; index++)
         {
             lis[index].screenChanged(this, getChangedArea());

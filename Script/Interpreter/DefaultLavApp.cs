@@ -7,6 +7,9 @@ using System.IO;
 
 namespace Script.Interpreter
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DefaultLavApp : LavApp
     {
         //public DefaultLavApp(InputStream in) {

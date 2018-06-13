@@ -9,7 +9,7 @@ namespace Script.Interpreter.Ram
     /// 读取地址addr处的数据
     /// 
     /// </summary>
-     interface Getable
+    public interface Getable
     {
         byte getByte(int addr);
     }

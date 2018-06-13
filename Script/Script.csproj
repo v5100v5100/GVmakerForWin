@@ -37,25 +37,47 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler\GVmakerCompiler.cs" />
+    <Compile Include="Interpreter\DefaultLavApp.cs" />
     <Compile Include="Interpreter\Event\Area.cs" />
     <Compile Include="Interpreter\Event\ScreenChangeListener.cs" />
+    <Compile Include="Interpreter\FileModel.cs" />
+    <Compile Include="Interpreter\GvmConfig.cs" />
+    <Compile Include="Interpreter\InputMethod.cs" />
+    <Compile Include="Interpreter\IO\DefaultFileModel.cs" />
+    <Compile Include="Interpreter\IO\DefaultKeyMap.cs" />
+    <Compile Include="Interpreter\IO\DefaultKeyModel.cs" />
+    <Compile Include="Interpreter\IO\FileSystem.cs" />
+    <Compile Include="Interpreter\IO\FileSystemInfo.cs" />
+    <Compile Include="Interpreter\IO\KeyMap.cs" />
+    <Compile Include="Interpreter\IO\Properties.cs" />
+    <Compile Include="Interpreter\IO\SpellInfo.cs" />
+    <Compile Include="Interpreter\IO\Util.cs" />
+    <Compile Include="Interpreter\IO\VirtualFile.cs" />
+    <Compile Include="Interpreter\KeyModel.cs" />
+    <Compile Include="Interpreter\KeyModelSysInfo.cs" />
+    <Compile Include="Interpreter\LavApp.cs" />
+    <Compile Include="Interpreter\RamManager.cs" />
     <Compile Include="Interpreter\Ram\Accessable.cs" />
     <Compile Include="Interpreter\Ram\Getable.cs" />
     <Compile Include="Interpreter\Ram\Ram.cs" />
     <Compile Include="Interpreter\Ram\RelativeRam.cs" />
+    <Compile Include="Interpreter\Ram\RuntimeRam.cs" />
+    <Compile Include="Interpreter\Ram\ScreenRam.cs" />
     <Compile Include="Interpreter\Ram\Setable.cs" />
+    <Compile Include="Interpreter\Ram\Stack.cs" />
+    <Compile Include="Interpreter\Ram\StringRam.cs" />
     <Compile Include="Interpreter\Renderable.cs" />
     <Compile Include="Interpreter\ScreenModel.cs" />
     <Compile Include="Interpreter\ScreenModelImp.cs" />
+    <Compile Include="Interpreter\TextModel.cs" />
     <Compile Include="Interpreter\VirtualMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Compiler\" />
-    <Folder Include="Interpreter\IO\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

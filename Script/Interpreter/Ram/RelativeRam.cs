@@ -5,7 +5,11 @@ using System.Text;
 
 namespace Script.Interpreter.Ram
 {
-     interface RelativeRam
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface RelativeRam
     {
+
     }
 }

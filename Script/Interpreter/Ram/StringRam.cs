@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Script.Interpreter.Ram
 {
-    public readonly class StringRam : Ram
+    public sealed class stringRam : Ram
     {
         private byte[] buffer;
         private int offset, startAddr;
 
-        public StringRam(int size)
+        public stringRam(int size)
         {
             buffer = new byte[size];
             offset = 0;
@@ -19,9 +19,9 @@ namespace Script.Interpreter.Ram
         /**
          * 从lav文件中读取一个以0结尾的字符串数组
          * @param source 数据源
-         * @return addr 这个数据保存在StringRam中的地址
+         * @return addr 这个数据保存在stringRam中的地址
          */
-        public int addString(LavApp source)
+        public int addstring(LavApp source)
         {
             int addr = offset + startAddr;
             byte b =0;
@@ -38,9 +38,9 @@ namespace Script.Interpreter.Ram
         }
 
         /**
-         * 该Ram不允许直接写内存,只能通过addString()方法想里面写数据
+         * 该Ram不允许直接写内存,只能通过addstring()方法想里面写数据
          * @throws IndexOutOfBoundsException 调用此方法总是抛出该异常
-         * @see #addString(LavApp)
+         * @see #addstring(LavApp)
          */
         public void setByte(int addr, byte data)
         {
@@ -61,7 +61,7 @@ namespace Script.Interpreter.Ram
          */
         public int getRamType()
         {
-            return Ram.RAM_STRING_TYPE;
+            return Ram.RAM_string_TYPE;
         }
 
         /**

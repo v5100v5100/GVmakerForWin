@@ -5,33 +5,38 @@ using System.Text;
 
 namespace Script.Interpreter.Ram
 {
+    public class RamConst 
+    {
+
+        /**
+         * 运行时内存类型
+         */
+        public static int RAM_RUNTIME_TYPE = 0x01;
+        /**
+         * 显存内存类型
+         */
+        public static int RAM_GRAPH_TYPE = 0x02;
+        /**
+         * 屏幕缓存类型
+         */
+        public static int RAM_BUFFER_TYPE = 0x04;
+        /**
+         * 文本缓冲区类型
+         */
+        public static int RAM_TEXT_TYPE = 0x08;
+        /**
+         * 字符堆内存类型
+         */
+        public static int RAM_string_TYPE = 0x10;
+    }
+
     /// <summary>
     ///  GVM各种内存模块的父接口.
     ///  注意,其某些子接口可能会限制setByte()的使用
     /// </summary>
-     interface Ram : Accessable
+    public interface Ram : Accessable
     {
-        
-    /**
-     * 运行时内存类型
-     */
-     static int RAM_RUNTIME_TYPE = 0x01;
-    /**
-     * 显存内存类型
-     */
-     static int RAM_GRAPH_TYPE = 0x02;
-    /**
-     * 屏幕缓存类型
-     */
-     static int RAM_BUFFER_TYPE = 0x04;
-    /**
-     * 文本缓冲区类型
-     */
-     static int RAM_TEXT_TYPE = 0x08;
-    /**
-     * 字符堆内存类型
-     */
-     static int RAM_STRING_TYPE = 0x10;
+
 
     /**
      * 这块内存的大小,以字节数计算
@@ -40,7 +45,7 @@ namespace Script.Interpreter.Ram
     int size();
 
     /**
-     * 得到内存的类型,只能是RAM_RUNTIME_TYPE,RAM_GRAPH_TYPE,RAM_BUFFER_TYPE,RAM_TEXT_TYPE,RAM_STRING_TYPE五者者之一
+     * 得到内存的类型,只能是RAM_RUNTIME_TYPE,RAM_GRAPH_TYPE,RAM_BUFFER_TYPE,RAM_TEXT_TYPE,RAM_string_TYPE五者者之一
      * @return type
      */
     int getRamType();

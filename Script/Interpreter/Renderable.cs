@@ -68,12 +68,12 @@ namespace Script.Interpreter
     /**
      * 绘制一个以0结尾的字符串
      */
-     void drawString(int x, int y, Getable source, int addr);
+     void drawstring(int x, int y, Getable source, int addr);
 
     /**
      * 绘制从地址addr开始的length个字符 
      */
-     void drawString(int x, int y, Getable source, int addr, int length);
+     void drawstring(int x, int y, Getable source, int addr, int length);
 
     /**
      * 绘制矩形

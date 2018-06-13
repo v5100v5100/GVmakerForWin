@@ -15,7 +15,7 @@ namespace Script.Interpreter.Event
         /// <summary>
         /// 一个Area常量，其x,y,width,height都为0
         /// </summary>
-         static Area EMPTY_AREA = new Area(0, 0, 0, 0);
+        static Area EMPTY_AREA = new Area(0, 0, 0, 0);
         private int x,  y,  width,  height;
         private bool empty;
 
@@ -26,7 +26,7 @@ namespace Script.Interpreter.Event
         /// <param name="y">区域起始y值</param>
         /// <param name="width">区域的宽度</param>
         /// <param name="height">区域的高度</param>
-         Area(int x, int y, int width, int height)
+        Area(int x, int y, int width, int height)
         {
             this.x = x;
             this.y = y;
@@ -39,32 +39,32 @@ namespace Script.Interpreter.Event
         /// 判断这个Area是否为空
         /// </summary>
         /// <returns></returns>
-         bool isEmpty() 
+        bool isEmpty() 
         {
             return empty;
         }
 
-         override string ToString()
+        override string Tostring()
         {
             return "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
         }
 
-         int getHeight() 
+        int getHeight() 
         {
             return height;
         }
 
-         int getWidth()
+        int getWidth()
         {
             return width;
         }
 
-         int getY() 
+        int getY() 
         {
             return y;
         }
 
-         int getX() 
+        int getX() 
         {
             return x;
         }
