@@ -19,7 +19,8 @@ namespace Script.Interpreter.IO
         private KeyMap keyMap;
         private KeyModelSysInfo keyInf;
 
-        public DefaultKeyModel(KeyModelSysInfo keyInf) {
+        public DefaultKeyModel(KeyModelSysInfo keyInf)
+        {
             this.keyInf = keyInf;
             hasKey = false;
         }
@@ -30,7 +31,8 @@ namespace Script.Interpreter.IO
             keyStatus = new bool[keyValues.Length];
         }
 
-        public synchronized void keyPreesed(int rawKeyCode) {
+        public synchronized void keyPreesed(int rawKeyCode)
+        {
             hasKey = true;
             keyCode = rawKeyCode;
             for (int index = 0; index < keyValues.Length; index++) {
@@ -42,7 +44,8 @@ namespace Script.Interpreter.IO
             notify();
         }
 
-        public synchronized void keyReleased(int rawKeyCode) {
+        public synchronized void keyReleased(int rawKeyCode)
+        {
             if (keyCode == rawKeyCode) {
                 hasKey = false;
             }
@@ -54,19 +57,26 @@ namespace Script.Interpreter.IO
             }
         }
 
-        public synchronized void releaseKey(char key) {
-            //System.out.printf("CheckKey :%2x%n", (int) key);
-            if ((key & 0x80) != 0) {
-                for (int index = 0; index < keyStatus.Length; index++) {
-                    if (keyStatus[index]) {
+        public synchronized void releaseKey(char key)
+        {
+            if ((key & 0x80) != 0)
+            {
+                for (int index = 0; index < keyStatus.Length; index++)
+                {
+                    if (keyStatus[index])
+                    {
                         hasKey = true;
                         keyCode = keyValues[index];
                         break;
                     }
                 }
-            } else {
-                for (int index = 0; index < keyStatus.Length; index++) {
-                    if (keyStatus[index] && key == keyMap.translate(keyValues[index])) {
+            }
+            else 
+            {
+                for (int index = 0; index < keyStatus.Length; index++)
+                {
+                    if (keyStatus[index] && key == keyMap.translate(keyValues[index]))
+                    {
                         hasKey = true;
                         keyCode = keyValues[index];
                         break;
@@ -75,18 +85,26 @@ namespace Script.Interpreter.IO
             }
         }
 
-        public synchronized char checkKey(char key) {
+        public synchronized char checkKey(char key)
+        {
             //System.out.printf("CheckKey :%2x%n",(int)key);
-            if ((key & 0x80) != 0) {
-                for (int index = 0; index < keyStatus.Length; index++) {
-                    if (keyStatus[index]) {
+            if ((key & 0x80) != 0)
+            {
+                for (int index = 0; index < keyStatus.Length; index++)
+                {
+                    if (keyStatus[index])
+                    {
                         return keyMap.translate(keyValues[index]);
                     }
                 }
                 return 0;
-            } else {
-                for (int index = 0; index < keyStatus.Length; index++) {
-                    if (keyStatus[index] && key == keyMap.translate(keyValues[index])) {
+            }
+            else
+            {
+                for (int index = 0; index < keyStatus.Length; index++)
+                {
+                    if (keyStatus[index] && key == keyMap.translate(keyValues[index]))
+                    {
                         return key;
                     }
                 }
@@ -98,12 +116,16 @@ namespace Script.Interpreter.IO
             return keyMap.translate(getRawKey());
         }
 
-        public synchronized char inkey() {
+        public synchronized char inkey()
+        {
             //System.out.printf("inkey");
-            if (hasKey) {
+            if (hasKey)
+            {
                 hasKey = false;
                 return keyMap.translate(keyCode);
-            } else {
+            }
+            else
+            {
                 return 0;
             }
         }
@@ -119,7 +141,8 @@ namespace Script.Interpreter.IO
             }
         }
 
-        public KeyModelSysInfo getSysInfo() {
+        public KeyModelSysInfo getSysInfo()
+        {
             return keyInf;
         }
 

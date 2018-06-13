@@ -43,19 +43,20 @@ namespace Script.Interpreter.IO
             ht = parseStream(inputStream);
         }
 
-        /**
-         * 得到指定属性的值
-         * @param name 属性名
-         * @return  对应的值;如果该属性不存在,返回null
-         */
-        public String getProperty(String name) {
-            return (String) ht.get(name);
+        /// <summary>
+        /// 得到指定属性的值
+        /// </summary>
+        /// <param name="name">属性名</param>
+        /// <returns>对应的值;如果该属性不存在,返回null</returns>
+        public string getProperty(string name) {
+            //return (string) ht.get(name);
+            return (string)ht[name];
         }
 
         private static Hashtable parseStream(FileStream inputStream) {
             Hashtable ht = new Hashtable();
             byte[] buffer = new byte[128];
-            String name, property;
+            string name, property;
             int b, index;
             while (true) {
                 b = skipCommentAndSpace(inputStream);
@@ -65,18 +66,25 @@ namespace Script.Interpreter.IO
                 index = 0;
                 do {
                     buffer[index++] = (byte) b;
-                    b = inputStream.read();
+                    //b = inputStream.read();
+                    b = inputStream.ReadByte();
                 } while (b != -1 && b != '=');
-                name = new String(buffer, 0, index).trim();
+                name = new string(buffer, 0, index).Trim();
                 b = skipCommentAndSpace(inputStream);
                 index = 0;
                 do {
                     buffer[index++] = (byte) b;
-                    b = inputStream.read();
+
+                    //b = inputStream.read();
+                    b = inputStream.ReadByte();
+
                 } while (b != -1 && b != 0x0a);
-                property = new String(buffer, 0, index).trim();
-                ht.put(name, property);
-            //System.out.println(name + " = " + property);
+                property = new string(buffer, 0, index).trim();
+
+
+                //ht.put(name, property);
+                ht[name] = property;
+
             }
             inputStream.Close();
             return ht;
@@ -85,22 +93,35 @@ namespace Script.Interpreter.IO
         private static int skipCommentAndSpace(FileStream inputStream)
         {
             int b = 0;
-            while (true) {
-                do {
-                    b = inputStream.read();
+            while (true)
+            {
+                do 
+                {
+
+                    //b = inputStream.read();
+                    b = inputStream.ReadByte();
+
                 } while (isSpace(b));
-                if (b == -1) {
+                if (b == -1) 
+                {
                     return -1;
                 }
-                else if (b == '#') {
-                    do {
-                        b = inputStream.read();
+                else if (b == '#')
+                {
+                    do 
+                    {
+                        //b = inputStream.read();
+                        b = inputStream.ReadByte();
+
                     } while (b != -1 && b != 0x0a);
-                    if (b == -1) {
+
+                    if (b == -1)
+                    {
                         return -1;
                     }
                 }
-                else {
+                else
+                {
                     return b;
                 }
             }

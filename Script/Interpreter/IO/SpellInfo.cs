@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace Script.Interpreter.IO
 {
@@ -26,9 +27,9 @@ namespace Script.Interpreter.IO
          * @return count
          */
         public static int count() {
-            return SPELL_NODES.length;
+            return SPELL_NODES.Length;
         }
-        private static readonly String SPELL_DATA = "/eastsun/jgvm/module/io/res/spell.dat";
+        private static readonly string SPELL_DATA = "/eastsun/jgvm/module/io/res/spell.dat";
         private static readonly SpellNode[] SPELL_NODES;
     
 

@@ -7,9 +7,14 @@ namespace Script.Interpreter.IO
 {
     public class DefaultKeyMap : KeyMap
     {
-        int[] keyValues;
+        int[] keyValues_;
         char[] keyCodes;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <param name="keyCodes"></param>
         public DefaultKeyMap(int[] keyValues, char[] keyCodes)
         {
             if (keyValues.Length != keyCodes.Length)
@@ -22,22 +27,31 @@ namespace Script.Interpreter.IO
             //this.keyValues = new int[keyValues.Length];
             keyValues = new int[keyValues.Length];
             //System.arraycopy(keyValues, 0, this.keyValues, 0, keyValues.Length);
-            Array.Copy(keyValues, 0, this.keyValues, 0, keyValues.Length);
+            Array.Copy(keyValues, 0, keyValues_, 0, keyValues.Length);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int[] keyValues()
         {
-            int[] newValues = new int[keyValues.Length];
+            int[] newValues = new int[keyValues_.Length];
             //System.arraycopy(keyValues, 0, newValues, 0, keyValues.Length);
-            Array.Copy(keyValues, 0, newValues, 0, keyValues.Length);
+            Array.Copy(keyValues_, 0, newValues, 0, keyValues_.Length);
             return newValues;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rawKeyCode"></param>
+        /// <returns></returns>
         public char translate(int rawKeyCode)
         {
-            for (int index = 0; index < keyValues.Length; index++)
+            for (int index = 0; index < keyValues_.Length; index++)
             {
-                if (keyValues[index] == rawKeyCode)
+                if (keyValues_[index] == rawKeyCode)
                 {
                     return keyCodes[index];
                 }
