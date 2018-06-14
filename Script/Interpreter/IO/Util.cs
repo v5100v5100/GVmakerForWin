@@ -14,57 +14,68 @@ namespace Script.Interpreter.IO
             //
         }
 
-
-        /**
-         * 得到src从addr开始的length个字节的crc16码
-         */
-        public static char getCrc16Value(Getable src, int addr, int length) {
-            char crc = 0, tmp;
+        /// <summary>
+        /// 得到src从addr开始的length个字节的crc16码
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="addr"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static UInt16 getCrc16Value(Getable src, int addr, int length) {
+            UInt16 crc = 0, tmp;
             while (--length >= 0) {
-                tmp = (char) ((crc >> 8) & 0xff);
+                tmp = (UInt16) ((crc >> 8) & 0xff);
                 crc <<= 4;
                 crc ^= CRC16_TAB[(tmp >> 4) ^ ((src.getByte(addr) & 0xff) >> 4)];
-                tmp = (char) ((crc >> 8) & 0xff);
+                tmp = (UInt16) ((crc >> 8) & 0xff);
                 crc <<= 4;
                 crc ^= CRC16_TAB[(tmp >> 4) ^ (src.getByte(addr) & 0x0f)];
                 addr++;
             }
             return crc;
         }
-        private static char[] CRC16_TAB = {
+        private static UInt16[] CRC16_TAB = {
             0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
             0x8108, 0x9129, 0xa14a, 0xb16b, 0xc18c, 0xd1ad, 0xe1ce, 0xf1ef
         };
 
-        /**
-         * 从Properties中得到GVM系统按键信息
-         */
+
+        /// <summary>
+        /// 从Properties中得到GVM系统按键信息
+        /// </summary>
+        /// <param name="pp"></param>
+        /// <returns></returns>
         public static KeyModelSysInfo loadFromProperties(Properties pp) {
             return new KeyModelSysInfoImpl(pp);
         }
 
-        /**
-         * 从按键配置文件中解析出KeyMap<p>
-         * 配置文件格式:<p>
-         *     1.基本格式: [注释] 系统Key值=GVM对应Key值 [注释]\n
-         *       表示将系统上的按键值为{系统Key值}的对应到GVM上按键值{GVM对应Key值}
-         *     2.关于注释: 配置文件中允许有注释,解析时会跳过注释部分,注释格式与C++中的注释格式相同
-         *     3.注意事项: 每行最多只能有一个配置项,(即{系统Key值=GVM对应Key值}),配置项前后可以带有注释,但注释项中间不能混有注释
-         * @param in 用于解析的输入流
-         * @return 解析出的KeyMap
-         * @throws IOException 发生IO错误
-         */
-        public static KeyMap parseKeyMap(InputStream in) throws IOException {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+        /// <summary>
+        /// 从按键配置文件中解析出KeyMap<p>
+        /// 配置文件格式:<p>
+        ///     1.基本格式: [注释] 系统Key值=GVM对应Key值 [注释]\n
+        ///       表示将系统上的按键值为{系统Key值}的对应到GVM上按键值{GVM对应Key值}
+        ///     2.关于注释: 配置文件中允许有注释,解析时会跳过注释部分,注释格式与C++中的注释格式相同
+        ///     3.注意事项: 每行最多只能有一个配置项,(即{系统Key值=GVM对应Key值}),配置项前后可以带有注释,但注释项中间不能混有注释
+        /// </summary>
+        /// <param name="fileStream">用于解析的输入流</param>
+        /// <returns>解析出的KeyMap</returns>
+        public static KeyMap parseKeyMap(FileStream fileStream)
+        {
+            //ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            MemoryStream memoryStream = new MemoryStream();
             byte[] tmpBuffer = new byte[512];
             int length;
-            while ((length = in.read(tmpBuffer)) != -1) {
-                bos.write(tmpBuffer, 0, length);
+            while ((length = fileStream.Read(tmpBuffer,0,tmpBuffer.Length)) != -1) {
+                //bos.write(tmpBuffer, 0, length);
+                memoryStream.Write(tmpBuffer, 0 , length);
             }
-            in.close();
-            byte[] buffer = bos.toByteArray();
+            fileStream.Close();
+            //byte[] buffer = bos.toByteArray();
+            byte[] buffer = memoryStream.ToArray();
             int count = 0;
-            for (int index = 0; index < buffer.length;) {
+            for (int index = 0; index < buffer.Length; )
+            {
                 if (buffer[index] == '=') {
                     count++;
                 }
@@ -92,7 +103,7 @@ namespace Script.Interpreter.IO
                 }
                 keyValues[count] = parseInt(buffer, start, end);
                 start = end;
-                while (end < buffer.length && buffer[end] != 0x0a) {
+                while (end < buffer.Length && buffer[end] != 0x0a) {
                     int command = skipComment(buffer, end);
                     if (command == 0) {
                         end++;
@@ -108,12 +119,13 @@ namespace Script.Interpreter.IO
             return new DefaultKeyMap(keyValues, keyCodes);
         }
 
-        /**
-         * 跳过注释部分
-         * @param data
-         * @param offset
-         * @return 如果有注释,返回注释总长度;否则返回0
-         */
+
+        /// <summary>
+        ///  跳过注释部分
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="offset"></param>
+        /// <returns>如果有注释,返回注释总长度;否则返回0</returns>
         private static int skipComment(byte[] data, int offset) {
             int start = offset;
             if (data[offset++] != '/') {
@@ -136,10 +148,13 @@ namespace Script.Interpreter.IO
             return offset - start;
         }
 
-        /**
-         * 解析一个byte形式的字符串为int,这个byte数组开始与结尾可能存在多余的字符
-         * @return 解析结果
-         */
+        /// <summary>
+        /// 解析一个byte形式的字符串为int,这个byte数组开始与结尾可能存在多余的字符
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns>解析结果</returns>
         private static int parseInt(byte[] data, int start, int end) {
             int mark = -1, count = 0;
             for (int index = start; index < end; index++) {
@@ -205,11 +220,11 @@ namespace Script.Interpreter.IO
             return num;
         }
 
-        /**
-         * 将一个整数化作gb2312编码的字符串数据
-         * @param i 一个整数值
-         * @return 一个表示gb2312编码的byte数组
-         */
+        /// <summary>
+        /// 将一个整数化作gb2312编码的字符串数据
+        /// </summary>
+        /// <param name="i">一个整数值</param>
+        /// <returns>一个表示gb2312编码的byte数组</returns>
         public static byte[] intToGB(int i) {
             int sign = i < 0 ? 1 : 0;
             if (i < 0) {
@@ -231,9 +246,11 @@ namespace Script.Interpreter.IO
             return data;
         }
 
-        /**
-         * 功能同GVmaker中的cos函数
-         */
+        /// <summary>
+        /// 功能同GVmaker中的cos函数
+        /// </summary>
+        /// <param name="deg"></param>
+        /// <returns></returns>
         public static int cos(int deg) {
             deg &= 0x7fff;
             deg = 90 - deg;
@@ -241,9 +258,11 @@ namespace Script.Interpreter.IO
             return sin(deg);
         }
 
-        /**
-         * 功能同GVmaker中的cos函数
-         */
+        /// <summary>
+        /// 功能同GVmaker中的cos函数
+        /// </summary>
+        /// <param name="deg"></param>
+        /// <returns></returns>
         public static int sin(int deg) {
             deg &= 0x7fff;
             deg %= 360;
@@ -269,13 +288,14 @@ namespace Script.Interpreter.IO
             return new AccessableImpl(array);
         }
 
-        /**
-         * 得到gb2312编码字符c的点阵数据<p>
-         * 如果字符不是一个正常的gb2312字符,则用0填充数组
-         * @param c 字符
-         * @param data 用来保存点阵数据,其大小应不小于12或24
-         * @return count 数据字节数
-         */
+
+        /// <summary>
+        /// 得到gb2312编码字符c的点阵数据<p>
+        /// 如果字符不是一个正常的gb2312字符,则用0填充数组
+        /// </summary>
+        /// <param name="c">字符</param>
+        /// <param name="data">用来保存点阵数据,其大小应不小于12或24</param>
+        /// <returns>数据字节数</returns>
         public static int getGB12Data(char c, byte[] data) {
             int offset, count;
             byte[] buffer;
@@ -310,12 +330,12 @@ namespace Script.Interpreter.IO
             }
         }
 
-        /**
-         * 得到gb2312编码字符c的点阵数据
-         * @param c 字符
-         * @param data 用来保存点阵数据,其大小应不小于16或32
-         * @return count 数据字节数
-         */
+        /// <summary>
+        /// 得到gb2312编码字符c的点阵数据
+        /// </summary>
+        /// <param name="c">字符</param>
+        /// <param name="data">用来保存点阵数据,其大小应不小于16或32</param>
+        /// <returns>数据字节数</returns>
         public static int getGB16Data(char c, byte[] data) {
             int offset, count;
             byte[] buffer;
@@ -413,21 +433,46 @@ namespace Script.Interpreter.IO
             try {
                 FileStream inputStream = null;
             
-                android.content.Context con = eastsun.jgvm.plaf.android.MainView.getCurrentView().getContext();
-                in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.gbfont);
-                gb12Data = new byte[in.available()];
+                //android.content.Context con = eastsun.jgvm.plaf.android.MainView.getCurrentView().getContext();
+                //in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.gbfont);
+                //gb12Data = new byte[in.available()];
+                //readData(inputStream, gb12Data);
+                //
+                inputStream = new FileStream(Directory.GetCurrentDirectory()+"gbfont.bin",FileMode.Open);
+                gb12Data = new byte[inputStream.Length];
                 readData(inputStream, gb12Data);
-                in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.gbfont16);
-                gb16Data = new byte[in.available()];
-                readData(inputStream, gb16Data);
 
-                in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.ascii);
-                ascii12Data = new byte[in.available()];
+
+
+
+                //in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.gbfont16);
+                //gb16Data = new byte[in.available()];
+                //readData(inputStream, gb16Data);
+                inputStream = new FileStream(Directory.GetCurrentDirectory()+"gbfont16.bin",FileMode.Open);
+                gb16Data = new byte[inputStream.Length];
+                readData(inputStream,gb16Data);
+
+
+
+
+                //in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.ascii);
+                //ascii12Data = new byte[in.available()];
+                //readData(inputStream, ascii12Data);
+                inputStream = new FileStream(Directory.GetCurrentDirectory()+"ascii.bin",FileMode.Open);
+                ascii12Data = new byte[inputStream.Length];
                 readData(inputStream, ascii12Data);
 
-                in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.ascii8);
-                ascii16Data = new byte[in.available()];
-                readData(inputStream, ascii16Data);
+
+
+
+
+                //in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.ascii8);
+                //ascii16Data = new byte[in.available()];
+                //readData(inputStream, ascii16Data);
+                inputStream = new FileStream(Directory.GetCurrentDirectory()+"ascii8.bin",FileMode.Open);
+                ascii16Data = new byte[inputStream.Length];
+                readData(inputStream,ascii16Data);
+
             } catch (IOException ex) {
                 //throw new IllegalStateException(ex.toString());
             }

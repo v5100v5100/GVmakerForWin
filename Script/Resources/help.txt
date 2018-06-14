@@ -1,0 +1,36 @@
+Do not install this software if you have no idea about GVmaker application :)
+
+1. Create a folder named 'gvm' in the root of your SD card.
+    Create a folder named 'GVMData' in previous folder.
+    Create a folder named 'LavaData' in previous folder.
+	
+	Now the folder structure should be like:
+	<sdcard>
+	|----gvm
+	|----|----GVMData
+	|----|----LavaData
+	
+2. Copy the GVmaker application (*.lav) into 'gvm'.
+    Follow the application's instruction, copy data file into 'LavaData' or 'GVMData' if necessary.
+	
+3. Launch GVmakerAD and press 'MENU' button.
+    Press 'Open' to load a GVmaker application.
+    Press 'Pause' to pause GVmaker application.
+    Press 'Exit' to exit GVmakerAD.
+	It's easy, isn't it?
+	
+4. Key mapping is a little strange:
+    'F1/F2' <=> left 'Shift/Alt'
+	'F3/F4' <=> 'Search/Email'
+	'ESC' <=> 'DEL'
+	'Right/Down' <=> right 'Shift/Alt'
+	'Left/Up' <=> './,'
+	'Page Up/Down' <=> 'Volume Up/Down'
+	NumPad is the same as GVmaker keyboard.
+
+5. Unmapped GVmaker keys:
+    HELP, SHIFT, CAPS, PERIOD(.)
+
+6. NOTICE:
+    * Close Chinese IME before you use keyboard.
+    * Some GVmaker application may block GVmakerAD.

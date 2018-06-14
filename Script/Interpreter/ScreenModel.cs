@@ -25,6 +25,7 @@ namespace Script.Interpreter
      static ScreenModel newScreenModel() {
         return new ScreenModelImp();
     }
+
     private ScreenChangeListener[] lis;
 
     protected ScreenModel() {
@@ -35,7 +36,7 @@ namespace Script.Interpreter
      * 为Screen添加监听器,当Screen的Graph状态发生变化时发生变化时将激发事件
      * @param listener 事件监听器
      */
-      void addScreenChangeListener(ScreenChangeListener listener) {
+     public void addScreenChangeListener(ScreenChangeListener listener) {
         ScreenChangeListener[] oldValue = lis;
         lis = new ScreenChangeListener[oldValue.Length + 1];
         int index = 0;
@@ -60,7 +61,8 @@ namespace Script.Interpreter
      * 得到屏幕的宽度
      * @return width
      */
-      int getWidth() {
+    public int getWidth()
+    {
         return WIDTH;
     }
 
@@ -68,7 +70,8 @@ namespace Script.Interpreter
      * 得到屏幕的高度
      * @return height
      */
-      int getHeight() {
+    public int getHeight()
+    {
         return HEIGHT;
     }
 

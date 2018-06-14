@@ -35,7 +35,7 @@ namespace Script.Interpreter
         /// <param name="screen"></param>
         public void setScreenModel(ScreenModel screen) {
             if (screen == null) {
-                throw new IllegalArgumentException("Screen must't be null!");
+                //throw new IllegalArgumentException("Screen must't be null!");
             }
             if (this.screen != screen) {
                 this.screen = screen;
@@ -216,70 +216,6 @@ namespace Script.Interpreter
                 buffer[index++] = (byte) 0;
             }
             curRow--;
-        }
-
-        private static final class ByteArrayGetter implements Getable {
-
-            private byte[] buffer;
-
-            public ByteArrayGetter(byte[] buffer) {
-                this.buffer = buffer;
-            }
-
-            public byte getByte(int addr) {
-                return buffer[addr];
-            }
-        }
-
-        /**
-         * 使用一个外部byte数组作为数据存储的Ram,注意:外部修改此byte数组会影响到此Ram
-         * @author Eastsun
-         * @version 2008-1-3
-         */
-        private static final class ByteArrayRam implements RelativeRam {
-
-            private byte[] buffer;
-            private ScreenModel screen;
-            private int startAddr;
-
-            public ByteArrayRam(byte[] buffer, ScreenModel screen) {
-                this.buffer = buffer;
-                this.screen = screen;
-            }
-
-            public ScreenModel getScreenModel() {
-                return screen;
-            }
-
-            public int size() {
-                return buffer.length;
-            }
-
-            public int getRamType() {
-                return Ram.RAM_TEXT_TYPE;
-            }
-
-            public int getStartAddr() {
-                return startAddr;
-            }
-
-            public void setStartAddr(int addr) {
-                startAddr = addr;
-            }
-
-            public byte getByte(int addr) {
-                return buffer[addr - startAddr];
-            }
-
-            public void setByte(int addr, byte data) {
-                buffer[addr - startAddr] = data;
-            }
-
-            public void clear() {
-                for (int index = buffer.length - 1; index >= 0; index--) {
-                    buffer[index] = 0;
-                }
-            }
         }
     }
 }
