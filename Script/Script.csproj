@@ -53,6 +53,7 @@
     <Compile Include="Interpreter\IO\FileSystem.cs" />
     <Compile Include="Interpreter\IO\FileSystemInfo.cs" />
     <Compile Include="Interpreter\IO\KeyMap.cs" />
+    <Compile Include="Interpreter\IO\KeyModelSysInfoImpl.cs" />
     <Compile Include="Interpreter\IO\Properties.cs" />
     <Compile Include="Interpreter\IO\SpellInfo.cs" />
     <Compile Include="Interpreter\IO\Util.cs" />

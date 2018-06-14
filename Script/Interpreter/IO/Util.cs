@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace Script.Interpreter.IO
 {
@@ -12,6 +13,7 @@ namespace Script.Interpreter.IO
         private Util() {
             //
         }
+
 
         /**
          * 得到src从addr开始的length个字节的crc16码
@@ -121,7 +123,7 @@ namespace Script.Interpreter.IO
                 return 0;
             }
             if (data[offset++] == '/') {
-                while (offset < data.length && data[offset] != 0x0a) {
+                while (offset < data.Length && data[offset] != 0x0a) {
                     offset++;
                 }
             }
@@ -144,7 +146,8 @@ namespace Script.Interpreter.IO
                 if (data[index] == '\'') {
                     count++;
                     if (count > 2 || (count == 2 && index != mark + 2)) {
-                        throw new IllegalArgumentException("按键配置文件错误!" + count + "," + index + "," + mark);
+                        //throw new IllegalArgumentException("按键配置文件错误!" + count + "," + index + "," + mark);
+
                     }
                     if (count == 1) {
                         mark = index;
@@ -181,7 +184,7 @@ namespace Script.Interpreter.IO
                 }
             }
             else {
-                boolean flags = (data[start] == '-');
+                bool flags = (data[start] == '-');
                 if (flags) {
                     start++;
                 }
@@ -256,23 +259,14 @@ namespace Script.Interpreter.IO
             }
         }
 
-        /**
-         * 将一个byte数组包装为一个Accessable
-         * @param array byte数组
-         * @return 一个Accessable
-         */
-        public static Accessable asAccessable(final byte[] array) {
-            return new Accessable() {
 
-                public byte getByte(
-                        int addr) throws IndexOutOfBoundsException {
-                    return array[addr];
-                }
-
-                public void setByte(int addr, byte b) throws IndexOutOfBoundsException {
-                    array[addr] = b;
-                }
-            };
+        /// <summary>
+        /// 将一个byte数组包装为一个Accessable
+        /// </summary>
+        /// <param name="array">byte数组</param>
+        /// <returns>一个Accessable</returns>
+        public static Accessable asAccessable( byte[] array) {
+            return new AccessableImpl(array);
         }
 
         /**
@@ -299,7 +293,7 @@ namespace Script.Interpreter.IO
                 }
                 offset = (high * 94 + (c >> 8) - 0xa1) * 24;
             }
-            if (offset < 0 || offset + count > buffer.length) {
+            if (offset < 0 || offset + count > buffer.Length) {
                 fillZero(data);
             }
             else {
@@ -311,7 +305,7 @@ namespace Script.Interpreter.IO
         }
 
         private static void fillZero(byte[] array) {
-            for (int index = 0; index < array.length; index++) {
+            for (int index = 0; index < array.Length; index++) {
                 array[index] = 0;
             }
         }
@@ -339,7 +333,7 @@ namespace Script.Interpreter.IO
                 }
                 offset = (high * 94 + (c >> 8) - 0xa1) << 5;
             }
-            if (offset < 0 || offset + count > buffer.length) {
+            if (offset < 0 || offset + count > buffer.Length) {
                 fillZero(data);
             }
             else {
@@ -353,7 +347,7 @@ namespace Script.Interpreter.IO
         private static byte[] gb12Data;
         private static byte[] ascii16Data;
         private static byte[] ascii12Data;
-        private static final int[] sinTab = {
+        private static readonly int[] sinTab = {
             0, 18, 36, 54, 71, 89, 107, 125, 143, 160, 178, 195, 213, 230, 248, 265, 282,
             299, 316, 333, 350, 367, 384, 400, 416, 433, 449, 465, 481, 496, 512, 527,
             543, 558, 573, 587, 602, 616, 630, 644, 658, 672, 685, 698, 711, 724, 737,
@@ -362,47 +356,80 @@ namespace Script.Interpreter.IO
             998, 1002, 1005, 1008, 1011, 1014, 1016, 1018, 1020, 1022, 1023, 1023, 1024, 1024
         };
 
-        private static void readData(InputStream in, byte[] buffer) throws IOException {
+        //private static void readData(InputStream in, byte[] buffer) throws IOException {
+        //    int offset = 0;
+        //    int len = buffer.length;
+        //    do {
+        //        int size = in.read(buffer, offset, len - offset);
+        //        if (size == -1) {
+        //            break;
+        //        }
+        //        offset += size;
+        //    } while (offset < len);
+        //    in.close();
+        //}
+        private static void readData(FileStream inputStream, byte[] buffer)
+        {
             int offset = 0;
-            int len = buffer.length;
+            int len = buffer.Length;
             do {
-                int size = in.read(buffer, offset, len - offset);
+                int size = inputStream.Read(buffer, offset, len - offset);
                 if (size == -1) {
                     break;
                 }
                 offset += size;
             } while (offset < len);
-            in.close();
+            inputStream.Close();
         }
     
 
-        static {
+        /// <summary>
+        /// 静态构造
+        /// </summary>
+        static Util()
+        {
+            //try {
+            //    InputStream in = null;
+            
+            //    android.content.Context con = eastsun.jgvm.plaf.android.MainView.getCurrentView().getContext();
+            //    in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.gbfont);
+            //    gb12Data = new byte[in.available()];
+            //    readData(in, gb12Data);
+            //    in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.gbfont16);
+            //    gb16Data = new byte[in.available()];
+            //    readData(in, gb16Data);
+
+            //    in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.ascii);
+            //    ascii12Data = new byte[in.available()];
+            //    readData(in, ascii12Data);
+
+            //    in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.ascii8);
+            //    ascii16Data = new byte[in.available()];
+            //    readData(in, ascii16Data);
+            //} catch (IOException ex) {
+            //    throw new IllegalStateException(ex.toString());
+            //}
+
             try {
-                InputStream in = null;
+                FileStream inputStream = null;
             
                 android.content.Context con = eastsun.jgvm.plaf.android.MainView.getCurrentView().getContext();
-            
                 in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.gbfont);
-                //in = Util.class.getResourceAsStream("/eastsun/jgvm/module/io/res/gbfont.bin");
                 gb12Data = new byte[in.available()];
-                readData(in, gb12Data);
-
+                readData(inputStream, gb12Data);
                 in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.gbfont16);
-                //in = Util.class.getResourceAsStream("/eastsun/jgvm/module/io/res/gbfont16.bin");
                 gb16Data = new byte[in.available()];
-                readData(in, gb16Data);
+                readData(inputStream, gb16Data);
 
                 in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.ascii);
-                //in = Util.class.getResourceAsStream("/eastsun/jgvm/module/io/res/ascii.bin");
                 ascii12Data = new byte[in.available()];
-                readData(in, ascii12Data);
+                readData(inputStream, ascii12Data);
 
                 in = con.getResources().openRawResource(eastsun.jgvm.plaf.android.R.raw.ascii8);
-                //in = Util.class.getResourceAsStream("/eastsun/jgvm/module/io/res/ascii8.bin");
                 ascii16Data = new byte[in.available()];
-                readData(in, ascii16Data);
+                readData(inputStream, ascii16Data);
             } catch (IOException ex) {
-                throw new IllegalStateException(ex.toString());
+                //throw new IllegalStateException(ex.toString());
             }
         }
     }
