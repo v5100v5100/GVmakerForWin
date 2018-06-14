@@ -13,30 +13,30 @@ namespace Script.Interpreter.IO
     public class Properties
     {
         
-        public readonly string BLACK_COLOR = "BLACK_COLOR";
-        public readonly string WHITE_COLOR = "WHITE_COLOR";
-        public readonly string BACKGROUND = "BACKGROUND";
-        public readonly string CIRC_ANGLE = "CIRC_ANGLE";
-        public readonly string SCREEN_RATE = "SCREEN_RATE";
-        public readonly string GVM_ROOT = "GVM_ROOT";
-        public readonly string KEY_ENTER = "KEY_ENTER";
-        public readonly string KEY_ESC = "KEY_ESC";
-        public readonly string KEY_UP = "KEY_UP";
-        public readonly string KEY_DOWN = "KEY_DOWN";
-        public readonly string KEY_LEFT = "KEY_LEFT";
-        public readonly string KEY_RIGHT = "KEY_RIGHT";
-        public readonly string NUMBER_KEY_SUPPORTED = "NUMBER_KEY_SUPPORTED";
-        public readonly string QUICK_EXIT = "QUICK_EXIT";
-        public readonly string KEY_NUMBER0 = "KEY_NUMBER0";
-        public readonly string KEY_NUMBER1 = "KEY_NUMBER1";
-        public readonly string KEY_NUMBER2 = "KEY_NUMBER2";
-        public readonly string KEY_NUMBER3 = "KEY_NUMBER3";
-        public readonly string KEY_NUMBER4 = "KEY_NUMBER4";
-        public readonly string KEY_NUMBER5 = "KEY_NUMBER5";
-        public readonly string KEY_NUMBER6 = "KEY_NUMBER6";
-        public readonly string KEY_NUMBER7 = "KEY_NUMBER7";
-        public readonly string KEY_NUMBER8 = "KEY_NUMBER8";
-        public readonly string KEY_NUMBER9 = "KEY_NUMBER9";
+        public const string BLACK_COLOR = "BLACK_COLOR";
+        public const string WHITE_COLOR = "WHITE_COLOR";
+        public const string BACKGROUND = "BACKGROUND";
+        public const string CIRC_ANGLE = "CIRC_ANGLE";
+        public const string SCREEN_RATE = "SCREEN_RATE";
+        public const string GVM_ROOT = "GVM_ROOT";
+        public const string KEY_ENTER = "KEY_ENTER";
+        public const string KEY_ESC = "KEY_ESC";
+        public const string KEY_UP = "KEY_UP";
+        public const string KEY_DOWN = "KEY_DOWN";
+        public const string KEY_LEFT = "KEY_LEFT";
+        public const string KEY_RIGHT = "KEY_RIGHT";
+        public const string NUMBER_KEY_SUPPORTED = "NUMBER_KEY_SUPPORTED";
+        public const string QUICK_EXIT = "QUICK_EXIT";
+        public const string KEY_NUMBER0 = "KEY_NUMBER0";
+        public const string KEY_NUMBER1 = "KEY_NUMBER1";
+        public const string KEY_NUMBER2 = "KEY_NUMBER2";
+        public const string KEY_NUMBER3 = "KEY_NUMBER3";
+        public const string KEY_NUMBER4 = "KEY_NUMBER4";
+        public const string KEY_NUMBER5 = "KEY_NUMBER5";
+        public const string KEY_NUMBER6 = "KEY_NUMBER6";
+        public const string KEY_NUMBER7 = "KEY_NUMBER7";
+        public const string KEY_NUMBER8 = "KEY_NUMBER8";
+        public const string KEY_NUMBER9 = "KEY_NUMBER9";
         private Hashtable ht;
 
         public Properties(FileStream inputStream){

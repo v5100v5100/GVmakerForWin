@@ -37,72 +37,8 @@ namespace Script.Interpreter.IO
         /**
          * 从Properties中得到GVM系统按键信息
          */
-        public static KeyModel.SysInfo loadFromProperties(final Properties pp) {
-            return new KeyModel.SysInfo() {
-
-                int left, right, down, up, enter, esc;
-                boolean hasNumberKey;
-                int[] numberKey = new int[10];
-            
-
-                {
-                    left = getKeyValue(Properties.KEY_LEFT);
-                    right = getKeyValue(Properties.KEY_RIGHT);
-                    up = getKeyValue(Properties.KEY_UP);
-                    down = getKeyValue(Properties.KEY_DOWN);
-                    enter = getKeyValue(Properties.KEY_ENTER);
-                    esc = getKeyValue(Properties.KEY_ESC);
-                    hasNumberKey = pp.getProperty(Properties.NUMBER_KEY_SUPPORTED).equals("true");
-                    if (hasNumberKey) {
-                        for (int index = 0; index <= 9; index++) {
-                            numberKey[index] = getKeyValue("KEY_NUMBER" + index);
-                        }
-                    }
-                }
-
-                int getKeyValue(String str) {
-                    str = pp.getProperty(str);
-                    if (str.startsWith("'")) {
-                        return str.charAt(1);
-                    }
-                    else {
-                        str = str.toLowerCase();
-                        return str.startsWith("0x") ? Integer.parseInt(str.substring(2), 16) : Integer.parseInt(str);
-                    }
-                }
-
-                public int getLeft() {
-                    return left;
-                }
-
-                public int getRight() {
-                    return right;
-                }
-
-                public int getUp() {
-                    return up;
-                }
-
-                public int getDown() {
-                    return down;
-                }
-
-                public int getEnter() {
-                    return enter;
-                }
-
-                public int getEsc() {
-                    return esc;
-                }
-
-                public boolean hasNumberKey() {
-                    return hasNumberKey;
-                }
-
-                public int getNumberKey(int num) {
-                    return numberKey[num];
-                }
-            };
+        public static KeyModelSysInfo loadFromProperties(Properties pp) {
+            return new KeyModelSysInfoImpl(pp);
         }
 
         /**
