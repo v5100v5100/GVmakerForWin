@@ -58,7 +58,7 @@ namespace Script.Interpreter.Ram
 
         public int getRamType()
         {
-            return Ram.RAM_RUNTIME_TYPE;
+            return RamConst.RAM_RUNTIME_TYPE;
         }
 
         public int getStartAddr()
