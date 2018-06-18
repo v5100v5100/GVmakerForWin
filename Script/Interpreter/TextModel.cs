@@ -146,13 +146,13 @@ namespace Script.Interpreter
             int ox = isBigMode ? 0 : 1;
             int oy = isBigMode ? 0 : 1;
             int dy = isBigMode ? 16 : 13;
-            int drawMode = render.DRAW_COPY_TYPE | render.RENDER_GRAPH_TYPE;
+            int drawMode = RenderableConst.DRAW_COPY_TYPE | RenderableConst.RENDER_GRAPH_TYPE;
             if (isBigMode) {
-                drawMode |= render.TEXT_BIG_TYPE;
+                drawMode |= RenderableConst.TEXT_BIG_TYPE;
             }
             if (m == 0) {
                 //刷新所有
-                render.setDrawMode(render.DRAW_CLEAR_TYPE | render.RENDER_GRAPH_TYPE | render.RENDER_FILL_TYPE);
+                render.setDrawMode(RenderableConst.DRAW_CLEAR_TYPE | RenderableConst.RENDER_GRAPH_TYPE | RenderableConst.RENDER_FILL_TYPE);
                 render.drawRect(0, 0, screen.getWidth(), screen.getHeight());
                 render.setDrawMode(drawMode);
                 for (int row = 0; row < maxRow; row++) {

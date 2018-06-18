@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Script.Interpreter.Ram
 {
-    public sealed class stringRam : Ram
+    public class stringRam : Ram
     {
         private byte[] buffer;
         private int offset, startAddr;

@@ -11,14 +11,14 @@ namespace Script.Interpreter
     public class GvmConfig
     {
 
-        private int runtimeRamSize, stringRamSize, stackSize, version;
+        private int runtimeRamSize_, stringRamSize_, stackSize_, version_;
 
         /**
          * 默认的JLVM配置
          */
-        public GvmConfig()
+        public GvmConfig() : this(0x6000, 1024, 512, 0x10)
         {
-            this(0x6000, 1024, 512, 0x10);
+            
         }
 
         /**
@@ -30,25 +30,25 @@ namespace Script.Interpreter
          */
         public GvmConfig(int runtimeRamSize, int stringRamSize, int stackSize, int version)
         {
-            this.runtimeRamSize = runtimeRamSize;
-            this.stringRamSize = stringRamSize;
-            this.stackSize = stackSize;
-            this.version = version;
+            this.runtimeRamSize_ = runtimeRamSize;
+            this.stringRamSize_ = stringRamSize;
+            this.stackSize_ = stackSize;
+            this.version_ = version;
         }
 
         public int stringRamSize()
         {
-            return stringRamSize;
+            return stringRamSize_;
         }
 
         public int stackSize()
         {
-            return stackSize;
+            return stackSize_;
         }
 
         public int runtimeRamSize()
         {
-            return runtimeRamSize;
+            return runtimeRamSize_;
         }
 
         /**
@@ -57,15 +57,15 @@ namespace Script.Interpreter
          */
         public int version()
         {
-            return version;
+            return version_;
         }
 
         public override String toString()
         {
-            return "[Version: 0x" + Integer.toHexString(version) +
-                    ",runtimeRamSize: " + runtimeRamSize +
-                    ",stringRamSize: " + stringRamSize +
-                    ", stackSize: " + stackSize + "]";
+            return "[Version: 0x" + Convert.ToString(version_, 16) +
+                    ",runtimeRamSize: " + runtimeRamSize_ +
+                    ",stringRamSize: " + stringRamSize_ +
+                    ", stackSize: " + stackSize_ + "]";
         }
     }
 }

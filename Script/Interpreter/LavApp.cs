@@ -17,8 +17,9 @@ namespace Script.Interpreter
      * @return 一个LavApp对象
      * @throws IllegalArgumentException 发生IO错误或数据格式不正确
      */
-    public static LavApp createLavApp(InputStream in) throws IllegalArgumentException {
-        return new DefaultLavApp(in);
+    public static LavApp createLavApp(FileStream inputStream)
+    {
+        return new DefaultLavApp(inputStream);
     }
 
     /**
@@ -27,7 +28,7 @@ namespace Script.Interpreter
      * @param data
      * @throws IllegalArgumentException
      */
-    protected LavApp(byte[] data) throws IllegalArgumentException {
+    protected LavApp(byte[] data){
         this.appData = data;
         verifyData();
     }
@@ -102,12 +103,12 @@ namespace Script.Interpreter
      * @param data 一个lavApp数据
      * @throws IllegalArgumentException 不正确的lava格式
      */
-    private void verifyData() throws IllegalArgumentException {
-        if (appData.length <= 16) {
-            throw new IllegalArgumentException("不是有效的LAV文件!");
+    private void verifyData(){
+        if (appData.Length <= 16) {
+            //throw new IllegalArgumentException("不是有效的LAV文件!");
         }
         if (appData[0] != 0x4c || appData[1] != 0x41 || appData[2] != 0x56) {
-            throw new IllegalArgumentException("不是有效的LAV文件!");
+            //throw new IllegalArgumentException("不是有效的LAV文件!");
         }
         offset = 16;
     }
