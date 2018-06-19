@@ -68,7 +68,7 @@ namespace Script.Interpreter.IO
             return index >> 1;//这里有问题，稍后再改
         }
 
-        public override string toString()
+        public override string ToString()
         {
             string gbStr = null;
             unsafe

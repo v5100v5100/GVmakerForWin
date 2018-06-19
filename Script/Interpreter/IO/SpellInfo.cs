@@ -19,10 +19,10 @@ namespace Script.Interpreter.IO
         /**
          * 得到所有SpellNode的枚举器,其中包含按拼音字典顺序排列的count个SpellNode
          */
-        public static Enumeration list()
-        {
-            return new SpellNodeEnum();
-        }
+        //public static Enumeration list()
+        //{
+        //    return new SpellNodeEnum();
+        //}
 
         /**
          * 得到不同拼音的数目
@@ -67,11 +67,11 @@ namespace Script.Interpreter.IO
                     int size = inputStream.ReadByte();
                     int n = 0, b;
                     //while ((b = in.read()) != '|') {
-                    while ((b = inputStream.ReadByte() != '|')){
+                    while ((b = inputStream.ReadByte()) != '|'){
                         buffer[n++] = (byte) b;
                     }
                     //String spell = new String(buffer, 0, n);
-                    string spell = Util.NewString(buffer , 0 ,n);
+                    string spell = Util.NewString(TypeConverter.ByteArrayToSByteArray(buffer), 0, n);
 
                     tmp[index] = new SpellNode(spell, size);
                 }
@@ -81,7 +81,7 @@ namespace Script.Interpreter.IO
                     byte[] data = new byte[2 * node.size()];
                     //in.read(data);
                     inputStream.Read(data,0,data.Length);
-                    node.setData(data);
+                    node.setData(TypeConverter.ByteArrayToSByteArray(data));
                 }
             } catch (IOException ex) {
                 //System.exit(-1);

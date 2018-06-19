@@ -9,7 +9,7 @@ namespace Script.Interpreter.Ram
     /// 联内存模块<p>
     /// 这种内存直接或间接与ScreenModel相关联,其内容也与ScreenModel相对应
     /// </summary>
-    public interface RelativeRam
+    public interface RelativeRam : Ram
     {
         ScreenModel getScreenModel();
     }

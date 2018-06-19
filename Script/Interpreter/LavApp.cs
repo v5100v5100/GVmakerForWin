@@ -8,7 +8,7 @@ namespace Script.Interpreter
 {
     public class LavApp
     {
-        private byte[] appData;
+        private sbyte[] appData;
         private int offset;
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Script.Interpreter
         /// 注意,LavApp内部使用的就是该数组,类创建后不能从外部修改这个数组
         /// </summary>
         /// <param name="data"></param>
-        protected LavApp(byte[] data)
+        protected LavApp(sbyte[] data)
         {
             this.appData = data;
             verifyData();
@@ -56,10 +56,10 @@ namespace Script.Interpreter
         /// 从app中读取两字节数据,对应lav中的int类型
         /// </summary>
         /// <returns></returns>
-        public short getInt()
+        public UInt16 getInt()
         {
-            short s;
-            s = (short) (appData[offset++] & 0xff);
+            UInt16 s;
+            s = (UInt16)(appData[offset++] & 0xff);
             s |= (appData[offset++] & 0xff) << 8;
             return s;
         }

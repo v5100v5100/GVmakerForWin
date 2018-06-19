@@ -75,7 +75,7 @@ namespace Script.Interpreter
         /// <param name="y"></param>
         /// <param name="source"></param>
         /// <param name="addr"></param>
-        void drawstring(int x, int y, Getable source, int addr);
+        void drawString(int x, int y, Getable source, int addr);
 
         /// <summary>
         /// 绘制从地址addr开始的length个字符 
@@ -85,7 +85,7 @@ namespace Script.Interpreter
         /// <param name="source"></param>
         /// <param name="addr"></param>
         /// <param name="length"></param>
-        public void drawstring(int x, int y, Getable source, int addr, int length);
+        void drawString(int x, int y, Getable source, int addr, int length);
 
 
         /// <summary>

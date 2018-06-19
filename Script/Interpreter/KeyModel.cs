@@ -19,7 +19,7 @@ namespace Script.Interpreter
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        char checkKey(UInt16 key);
+        UInt16 checkKey(UInt16 key);
 
 
         /// <summary>

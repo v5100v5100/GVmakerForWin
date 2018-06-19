@@ -28,20 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.mainCanvas = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.mainCanvas)).BeginInit();
             this.SuspendLayout();
+            // 
+            // mainCanvas
+            // 
+            this.mainCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainCanvas.Location = new System.Drawing.Point(0, 0);
+            this.mainCanvas.Name = "mainCanvas";
+            this.mainCanvas.Size = new System.Drawing.Size(688, 433);
+            this.mainCanvas.TabIndex = 0;
+            this.mainCanvas.TabStop = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(885, 567);
+            this.ClientSize = new System.Drawing.Size(688, 433);
+            this.Controls.Add(this.mainCanvas);
             this.Name = "MainForm";
             this.Text = "文曲星GVmaker模拟器";
+            ((System.ComponentModel.ISupportInitialize)(this.mainCanvas)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.PictureBox mainCanvas;
     }
 }
 

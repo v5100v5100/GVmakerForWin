@@ -68,7 +68,7 @@ namespace Script.Interpreter.Ram
          * @return data
          * @throws IndexOutOfBoundsException 内存读越界
          */
-        byte getByte(int addr);
+        sbyte getByte(int addr);
 
         /**
          * 设置指定地址的数据

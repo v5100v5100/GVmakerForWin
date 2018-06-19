@@ -15,7 +15,7 @@ namespace Script.Interpreter.Event
         /// <summary>
         /// 一个Area常量，其x,y,width,height都为0
         /// </summary>
-        static Area EMPTY_AREA = new Area(0, 0, 0, 0);
+        public static Area EMPTY_AREA = new Area(0, 0, 0, 0);
         private int x,  y,  width,  height;
         private bool empty;
 

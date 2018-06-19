@@ -21,7 +21,8 @@ namespace Script.Interpreter.IO
         /// <param name="addr"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static UInt16 getCrc16Value(Getable src, int addr, int length) {
+        public static UInt16 getCrc16Value(Getable src, int addr, int length)
+        {
             UInt16 crc = 0, tmp;
             while (--length >= 0) {
                 tmp = (UInt16) ((crc >> 8) & 0xff);
@@ -45,7 +46,8 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="pp"></param>
         /// <returns></returns>
-        public static KeyModelSysInfo loadFromProperties(Properties pp) {
+        public static KeyModelSysInfo loadFromProperties(Properties pp)
+        {
             return new KeyModelSysInfoImpl(pp);
         }
 
@@ -263,10 +265,12 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="deg"></param>
         /// <returns></returns>
-        public static int sin(int deg) {
+        public static int sin(int deg) 
+        {
             deg &= 0x7fff;
             deg %= 360;
-            switch (deg / 90) {
+            switch (deg / 90) 
+            {
                 case 0:
                     return sinTab[deg];
                 case 1:
@@ -284,7 +288,8 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="array">byte数组</param>
         /// <returns>一个Accessable</returns>
-        public static Accessable asAccessable( sbyte[] array) {
+        public static Accessable asAccessable( sbyte[] array) 
+        {
             return new AccessableImpl(array);
         }
 
@@ -296,15 +301,18 @@ namespace Script.Interpreter.IO
         /// <param name="c">字符</param>
         /// <param name="data">用来保存点阵数据,其大小应不小于12或24</param>
         /// <returns>数据字节数</returns>
-        public static int getGB12Data(char c, byte[] data) {
+        public static int getGB12Data(char c, sbyte[] data)
+        {
             int offset, count;
-            byte[] buffer;
-            if (c <= 0xff) {
+            sbyte[] buffer;
+            if (c <= 0xff)
+            {
                 count = 12;
                 offset = c * 12;
                 buffer = ascii12Data;
             }
-            else {
+            else 
+            {
                 count = 24;
                 buffer = gb12Data;
                 int high = (c & 0xff) - 0xa1;
@@ -313,19 +321,24 @@ namespace Script.Interpreter.IO
                 }
                 offset = (high * 94 + (c >> 8) - 0xa1) * 24;
             }
-            if (offset < 0 || offset + count > buffer.Length) {
+            if (offset < 0 || offset + count > buffer.Length)
+            {
                 fillZero(data);
             }
-            else {
-                for (int index = count - 1; index >= 0; index--) {
+            else
+            {
+                for (int index = count - 1; index >= 0; index--)
+                {
                     data[index] = buffer[offset + index];
                 }
             }
             return count;
         }
 
-        private static void fillZero(byte[] array) {
-            for (int index = 0; index < array.Length; index++) {
+        private static void fillZero(sbyte[] array)
+        {
+            for (int index = 0; index < array.Length; index++)
+            {
                 array[index] = 0;
             }
         }
@@ -336,38 +349,44 @@ namespace Script.Interpreter.IO
         /// <param name="c">字符</param>
         /// <param name="data">用来保存点阵数据,其大小应不小于16或32</param>
         /// <returns>数据字节数</returns>
-        public static int getGB16Data(char c, byte[] data) {
+        public static int getGB16Data(char c, sbyte[] data)
+        {
             int offset, count;
-            byte[] buffer;
-            if (c <= 0xff) {
+            sbyte[] buffer;
+            if (c <= 0xff)
+            {
                 count = 16;
                 offset = c << 4;
                 buffer = ascii16Data;
             }
-            else {
+            else
+            {
                 count = 32;
                 buffer = gb16Data;
                 int high = (c & 0xff) - 0xa1;
-                if (high > 8) {
+                if (high > 8)
+                {
                     high -= 6;
                 }
                 offset = (high * 94 + (c >> 8) - 0xa1) << 5;
             }
-            if (offset < 0 || offset + count > buffer.Length) {
+            if (offset < 0 || offset + count > buffer.Length)
+            {
                 fillZero(data);
             }
             else {
-                for (int index = count - 1; index >= 0; index--) {
+                for (int index = count - 1; index >= 0; index--)
+                {
                     data[index] = buffer[offset + index];
                 }
             }
             return count;
         }
-        private static byte[] gb16Data;
-        private static byte[] gb12Data;
-        private static byte[] ascii16Data;
-        private static byte[] ascii12Data;
-        private static readonly int[] sinTab = {
+        private static sbyte[] gb16Data;
+        private static sbyte[] gb12Data;
+        private static sbyte[] ascii16Data;
+        private static sbyte[] ascii12Data;
+        private const int[] sinTab = {
             0, 18, 36, 54, 71, 89, 107, 125, 143, 160, 178, 195, 213, 230, 248, 265, 282,
             299, 316, 333, 350, 367, 384, 400, 416, 433, 449, 465, 481, 496, 512, 527,
             543, 558, 573, 587, 602, 616, 630, 644, 658, 672, 685, 698, 711, 724, 737,

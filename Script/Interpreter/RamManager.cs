@@ -139,7 +139,8 @@ namespace Script.Interpreter
         public void setBytes(int addr, int count, int data) {
             while (--count >= 0) {
                 setByte(addr++, (byte) data);
-                data >>>= 8;
+                //data >>>= 8;
+                data = TypeConverter.UnsignedRightMove(data,8);
             }
         }
 
@@ -204,7 +205,7 @@ namespace Script.Interpreter
          * @param addr 地址
          * @return byte数据
          */
-        public byte getByte(int addr) {
+        public sbyte getByte(int addr) {
             //Notice: 该实现与resetRamAddress的实现方式有关
             if (addr >= runRam.getStartAddr()) {
                 return runRam.getByte(addr);
@@ -213,7 +214,7 @@ namespace Script.Interpreter
                 return strRam.getByte(addr);
             }
             for (int index = ramCount - 1; index >= 0; index--) {
-                Ram ram = rams[index];
+                Ram.Ram ram = rams[index];
                 if (addr >= ram.getStartAddr()) {
                     return ram.getByte(addr);
                 }
@@ -320,29 +321,29 @@ namespace Script.Interpreter
          * @param type 需要卸载的内存类型
          */
         public void uninstall(int type) {
-            Ram ram = null;
+            Ram.Ram ram = null;
             switch (type) {
-                case Ram.RAM_RUNTIME_TYPE:
+                case RamConst.RAM_RUNTIME_TYPE:
                     ram = runRam;
                     runRam = null;
                     break;
 
-                case Ram.RAM_GRAPH_TYPE:
+                case RamConst.RAM_GRAPH_TYPE:
                     ram = graphRam;
                     graphRam = null;
                     break;
 
-                case Ram.RAM_BUFFER_TYPE:
+                case RamConst.RAM_BUFFER_TYPE:
                     ram = bufferRam;
                     bufferRam = null;
                     break;
 
-                case Ram.RAM_STRING_TYPE:
+                case RamConst.RAM_STRING_TYPE:
                     ram = strRam;
                     strRam = null;
                     break;
 
-                case Ram.RAM_TEXT_TYPE:
+                case RamConst.RAM_TEXT_TYPE:
                     ram = textRam;
                     textRam = null;
                     break;
@@ -362,7 +363,7 @@ namespace Script.Interpreter
             // Notice: 如果修改,可能同时需要修改setByte与getByte方法
 
             //防止无效引用
-            for (int index = 0; index < rams.length; index++) {
+            for (int index = 0; index < rams.Length; index++) {
                 rams[index] = null;
             }
 
@@ -399,7 +400,7 @@ namespace Script.Interpreter
             }
 
             if (startAddr > START_ADDR) {
-                throw new IllegalStateException("靠,内存模块这么大!");
+                //throw new IllegalStateException("靠,内存模块这么大!");
             }
         }
     }

@@ -68,7 +68,7 @@ namespace Script.Interpreter.Ram
         /// <returns></returns>
         public int getRamType()
         {
-            return RamConst.RAM_string_TYPE;
+            return RamConst.RAM_STRING_TYPE;
         }
 
         /// <summary>

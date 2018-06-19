@@ -47,7 +47,7 @@ namespace Script.Interpreter
                 this.render = screen.getRender();
             }
             else {
-                ram.clear();
+                ram.Clear();
             }
             this.curCol = this.curRow = 0;
             this.isBigMode = true;
@@ -102,7 +102,8 @@ namespace Script.Interpreter
                 }
                 buffer[maxCol * curRow + curCol] = (sbyte) c;
                 curCol++;
-                buffer[maxCol * curRow + curCol] = (sbyte) (c >>> 8);
+                //buffer[maxCol * curRow + curCol] = (sbyte) (c >>> 8);
+                buffer[maxCol * curRow + curCol] = (sbyte) (TypeConverter.UnsignedRightMove(c,8));
                 curCol++;
                 if (curCol >= maxCol) {
                     curCol = 0;
@@ -190,7 +191,7 @@ namespace Script.Interpreter
          * @param mode mode==0为大字体,否则为小字体
          */
         public void setTextMode(int mode) {
-            ram.clear();
+            ram.Clear();
 
             curRow = curCol = 0;
             isBigMode = (mode == 0);

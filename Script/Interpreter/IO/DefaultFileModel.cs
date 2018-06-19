@@ -12,21 +12,21 @@ namespace Script.Interpreter.IO
     /// </summary>
     public class DefaultFileModel : FileModel
     {
-        public static readonly string READ_MODE = "r";
-        public static readonly string READ_PLUS_MODE = "r+";
-        public static readonly string READ_B_MODE = "rb";
-        public static readonly string READ_B_PLUS_MODE = "rb+";
-        public static readonly string WRITE_MODE = "w";
-        public static readonly string WRITE_PLUS_MODE = "w+";
-        public static readonly string WRITE_B_MODE = "wb";
-        public static readonly string WRITE_B_PLUS_MODE = "wb+";
-        public static readonly string APPEND_MODE = "a";
-        public static readonly string APPEND_PLUS_MODE = "a+";
-        public static readonly string APPEND_B_MODE = "ab";
-        public static readonly string APPEND_B_PLUS_MODE = "ab+";
-        private static readonly int SEEK_SET = 0;
-        private static readonly int SEEK_CUR = 1;
-        private static readonly int SEEK_END = 2;
+        public const string READ_MODE = "r";
+        public const string READ_PLUS_MODE = "r+";
+        public const string READ_B_MODE = "rb";
+        public const string READ_B_PLUS_MODE = "rb+";
+        public const string WRITE_MODE = "w";
+        public const string WRITE_PLUS_MODE = "w+";
+        public const string WRITE_B_MODE = "wb";
+        public const string WRITE_B_PLUS_MODE = "wb+";
+        public const string APPEND_MODE = "a";
+        public const string APPEND_PLUS_MODE = "a+";
+        public const string APPEND_B_MODE = "ab";
+        public const string APPEND_B_PLUS_MODE = "ab+";
+        private const int SEEK_SET = 0;
+        private const int SEEK_CUR = 1;
+        private const int SEEK_END = 2;
 
         //同时访问文件的最大个数
         private readonly static int MAX_FILE_COUNT = 3;
@@ -351,7 +351,7 @@ namespace Script.Interpreter.IO
             int count = 0, b;
             while (count < size && (b = file.getc()) != -1) 
             {
-                dest.setByte(addr++, (byte) b);
+                dest.setByte(addr++, (sbyte) b);
                 count++;
             }
             return count;
@@ -516,16 +516,20 @@ namespace Script.Interpreter.IO
         private string getstring(Getable src, int addr) 
         {
             int length = 0;
-            byte b;
+            sbyte b;
             while ((b = src.getByte(addr++)) != 0)
             {
                 strBuf[length++] = b;
             }
-            try {
-                return new string(strBuf, 0, length, "gb2312");
-            } catch (UnsupportedEncodingException uee) {
-                return new string(strBuf, 0, length);
-            }
+            //try
+            //{
+            //    return new string(strBuf, 0, length, "gb2312");
+            //}
+            //catch (UnsupportedEncodingException uee)
+            //{
+            //    return new string(strBuf, 0, length);
+            //}
+            return Util.NewString(strBuf, 0, length, Encoding.GetEncoding("gb2312"));
         }
     }
 }
