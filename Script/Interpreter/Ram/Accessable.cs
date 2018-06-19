@@ -11,5 +11,6 @@ namespace Script.Interpreter.Ram
     public interface Accessable : Getable, Setable
     {
 
+
     }
 }

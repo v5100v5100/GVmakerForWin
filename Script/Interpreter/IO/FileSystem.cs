@@ -12,37 +12,38 @@ namespace Script.Interpreter.IO
     /// </summary>
     public interface FileSystem
     {
-        
-    /**
-     * 得到该文件的InputStream,以读取其内容
-     * @return in 当文件存在且canRead返回true时返回指向该文件的InputStream
-     * @throws IOException 文件不存在或不可读或发生IO错误
-     */
-    //public InputStream getInputStream(string fileName) throws IOException;
+
+        //public InputStream getInputStream(string fileName) throws IOException;
+        /// <summary>
+        /// 得到该文件的InputStream,以读取其内容
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns>当文件存在且canRead返回true时返回指向该文件的InputStream</returns>
         public FileStream getInputStream(string fileName);
 
-    /**
-     * 得到该文件的OutputStream以向其写入内容<p>
-     * 当文件不存在时会创建一个新的文件
-     * @return out  返回指向该文件的OutputStream
-     * @throws IOException 若文件不可写或发生IO错误
-     */
-    //public OutputStream getOutputStream(string fileName) throws IOException;
-     public FileStream getOutputStream(string fileName);
+        /// <summary>
+        /// 得到该文件的OutputStream以向其写入内容<p>
+        /// 当文件不存在时会创建一个新的文件
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public FileStream getOutputStream(string fileName);
 
-    /**
-     * 删除文件
-     * @param fileName 文件名
-     * @return true,如果删除成功
-     */
-    public bool deleteFile(string fileName);
+        /// <summary>
+         /// 删除文件
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public bool deleteFile(string fileName);
 
-    /**
-     * 建立文件夹
-     * @param dirName 文件夹名
-     * @return true,如果创建成功
-     */
-    public bool makeDir(string dirName);
+        /// <summary>
+        /// 建立文件夹
+        /// </summary>
+        /// <param name="dirName"></param>
+        /// <returns>成功返回true，失败返回false</returns>
+        public bool makeDir(string dirName);
 
         /// <summary>
         /// 得到指定文件/文件夹的相关信息
@@ -50,6 +51,6 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="fileName">文件名</param>
         /// <returns>其相关信息</returns>
-    public FileSystemInfo getFileInf(string fileName);
+        public FileSystemInfo getFileInf(string fileName);
     }
 }

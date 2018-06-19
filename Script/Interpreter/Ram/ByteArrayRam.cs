@@ -11,11 +11,11 @@ namespace Script.Interpreter.Ram
     public sealed class ByteArrayRam : RelativeRam
     {
 
-        private byte[] buffer;
+        private sbyte[] buffer;
         private ScreenModel screen;
         private int startAddr;
 
-        public ByteArrayRam(byte[] buffer, ScreenModel screen)
+        public ByteArrayRam(sbyte[] buffer, ScreenModel screen)
         {
             this.buffer = buffer;
             this.screen = screen;
@@ -46,12 +46,12 @@ namespace Script.Interpreter.Ram
             startAddr = addr;
         }
 
-        public byte getByte(int addr)
+        public sbyte getByte(int addr)
         {
             return buffer[addr - startAddr];
         }
 
-        public void setByte(int addr, byte data)
+        public void setByte(int addr, sbyte data)
         {
             buffer[addr - startAddr] = data;
         }

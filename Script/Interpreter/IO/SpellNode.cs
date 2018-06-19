@@ -10,7 +10,7 @@ namespace Script.Interpreter.IO
     {
 
         private string spell_;
-        private byte[] data;
+        private sbyte[] data;
         private int size_;
 
 
@@ -85,7 +85,7 @@ namespace Script.Interpreter.IO
         /// 设置该node的汉字数据,内部直接使用该byte数组
         /// </summary>
         /// <param name="data"></param>
-        void setData(byte[] data)
+        public void setData(sbyte[] data)
         {
             if (data.Length != size_ * 2)
             {

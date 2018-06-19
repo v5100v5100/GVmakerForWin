@@ -31,7 +31,7 @@ namespace Script.Interpreter.IO
             keyStatus = new bool[keyValues.Length];
         }
 
-        public synchronized void keyPreesed(int rawKeyCode)
+        public void keyPreesed(int rawKeyCode)
         {
             hasKey = true;
             keyCode = rawKeyCode;
@@ -41,10 +41,9 @@ namespace Script.Interpreter.IO
                     break;
                 }
             }
-            notify();
         }
 
-        public synchronized void keyReleased(int rawKeyCode)
+        public void keyReleased(int rawKeyCode)
         {
             if (keyCode == rawKeyCode) {
                 hasKey = false;
@@ -57,7 +56,7 @@ namespace Script.Interpreter.IO
             }
         }
 
-        public synchronized void releaseKey(char key)
+        public void releaseKey(UInt16 key)
         {
             if ((key & 0x80) != 0)
             {
@@ -85,7 +84,7 @@ namespace Script.Interpreter.IO
             }
         }
 
-        public synchronized char checkKey(char key)
+        public UInt16 checkKey(UInt16 key)
         {
             //System.out.printf("CheckKey :%2x%n",(int)key);
             if ((key & 0x80) != 0)
@@ -112,13 +111,13 @@ namespace Script.Interpreter.IO
             }
         }
 
-        public char getchar() throws InterruptedException {
+        public UInt16 getchar()
+        {
             return keyMap.translate(getRawKey());
         }
 
-        public synchronized char inkey()
+        public UInt16 inkey()
         {
-            //System.out.printf("inkey");
             if (hasKey)
             {
                 hasKey = false;
@@ -130,13 +129,14 @@ namespace Script.Interpreter.IO
             }
         }
 
-        public synchronized int getRawKey() throws InterruptedException {
+        public int getRawKey()
+        {
             while (true) {
                 if (hasKey) {
                     hasKey = false;
                     return keyCode;
                 } else {
-                    wait();
+                    //wait();
                 }
             }
         }
@@ -145,6 +145,5 @@ namespace Script.Interpreter.IO
         {
             return keyInf;
         }
-
     }
 }

@@ -12,9 +12,6 @@ namespace Script.Interpreter
     /// </summary>
     public class DefaultLavApp : LavApp
     {
-        //public DefaultLavApp(InputStream in) {
-        //    super(getDataByInputStream(in));
-        //}
 
         public DefaultLavApp(FileStream fileStream): base(getDataByInputStream(fileStream)){
 

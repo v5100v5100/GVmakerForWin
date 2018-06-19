@@ -7,13 +7,14 @@ namespace Script.Interpreter.Ram
 {
     public class ScreenRam : RelativeRam
     {
-        
-        private byte[] buffer;
+
+        private sbyte[] buffer;
         private int type;
         private int startAddr;
         private ScreenModel screen;
 
-        public ScreenRam(ScreenModel screen, byte[] buffer, int type) {
+        public ScreenRam(ScreenModel screen, sbyte[] buffer, int type)
+        {
             this.screen = screen;
             this.buffer = buffer;
             this.type = type;
@@ -39,11 +40,13 @@ namespace Script.Interpreter.Ram
             startAddr = addr;
         }
 
-        public byte getByte(int addr){
+        public sbyte getByte(int addr)
+        {
             return buffer[addr - startAddr];
         }
 
-        public void setByte(int addr, byte data) {
+        public void setByte(int addr, sbyte data)
+        {
             buffer[addr - startAddr] = data;
         }
 

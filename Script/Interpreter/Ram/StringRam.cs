@@ -7,12 +7,12 @@ namespace Script.Interpreter.Ram
 {
     public class stringRam : Ram
     {
-        private byte[] buffer;
+        private sbyte[] buffer;
         private int offset, startAddr;
 
         public stringRam(int size)
         {
-            buffer = new byte[size];
+            buffer = new sbyte[size];
             offset = 0;
         }
 
@@ -24,10 +24,10 @@ namespace Script.Interpreter.Ram
         public int addstring(LavApp source)
         {
             int addr = offset + startAddr;
-            byte b =0;
+            sbyte b = 0;
             do
             {
-                b = (byte)source.getChar();
+                b = (sbyte)source.getChar();
                 buffer[offset++] = b;
             } while (b != 0);
             if (offset >= buffer.Length * 3 / 4)
@@ -42,7 +42,7 @@ namespace Script.Interpreter.Ram
          * @throws IndexOutOfBoundsException 调用此方法总是抛出该异常
          * @see #addstring(LavApp)
          */
-        public void setByte(int addr, byte data)
+        public void setByte(int addr, sbyte data)
         {
             //throw new IndexOutOfBoundsException("常字符串不能修改: " + addr);
             throw new IndexOutOfRangeException("常字符串不能修改: " + addr);
@@ -83,7 +83,7 @@ namespace Script.Interpreter.Ram
         /**
          * {@inheritDoc}
          */
-        public byte getByte(int addr)
+        public sbyte getByte(int addr)
         {
             return buffer[addr - startAddr];
         }

@@ -7,12 +7,13 @@ namespace Script.Interpreter.Ram
 {
     public class RuntimeRam : Ram
     {
+
         private int startAddr, regionStartAddr, regionEndAddr;
-        private byte[] buffer;
+        private sbyte[] buffer;
 
         public RuntimeRam(int size)
         {
-            buffer = new byte[size];
+            buffer = new sbyte[size];
         }
 
         /**
@@ -71,12 +72,12 @@ namespace Script.Interpreter.Ram
             startAddr = addr;
         }
 
-        public byte getByte(int addr)
+        public sbyte getByte(int addr)
         {
             return buffer[addr - startAddr];
         }
 
-        public void setByte(int addr, byte data)
+        public void setByte(int addr, sbyte data)
         {
             buffer[addr - startAddr] = data;
         }

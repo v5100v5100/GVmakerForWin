@@ -24,6 +24,6 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="rawKeyCode">rawKeyCode 原始键值</param>
         /// <returns>keyCode GVM中使用的键值</returns>
-        char translate(int rawKeyCode);
+        UInt16 translate(int rawKeyCode);
     }
 }

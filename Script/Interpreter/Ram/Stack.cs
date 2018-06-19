@@ -11,6 +11,7 @@ namespace Script.Interpreter.Ram
     public sealed class Stack
     {
 
+
         private int[] buffer;
         private int pointer;
         private int last;

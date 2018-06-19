@@ -12,14 +12,14 @@ namespace Script.Interpreter
         /// 释放按键key,即使该键正被按下
         /// </summary>
         /// <param name="key"></param>
-        void releaseKey(char key);
+        void releaseKey(UInt16 key);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        char checkKey(char key);
+        char checkKey(UInt16 key);
 
 
         /// <summary>
@@ -27,13 +27,13 @@ namespace Script.Interpreter
         /// </summary>
         /// <returns></returns>
         //char getchar() throws InterruptedException;
-        char getchar();
+        UInt16 getchar();
 
         /// <summary>
         /// 如果当前有键按下,则获得该键值并标记按键标志;否则返回0
         /// </summary>
         /// <returns></returns>
-        char inkey();
+        UInt16 inkey();
 
 
         /// <summary>

@@ -12,7 +12,8 @@ namespace Script.Interpreter.IO
     /// </summary>
     public class Properties
     {
-        
+   
+
         public const string BLACK_COLOR = "BLACK_COLOR";
         public const string WHITE_COLOR = "WHITE_COLOR";
         public const string BACKGROUND = "BACKGROUND";
@@ -39,7 +40,8 @@ namespace Script.Interpreter.IO
         public const string KEY_NUMBER9 = "KEY_NUMBER9";
         private Hashtable ht;
 
-        public Properties(FileStream inputStream){
+        public Properties(FileStream inputStream)
+        {
             ht = parseStream(inputStream);
         }
 
@@ -48,14 +50,16 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="name">属性名</param>
         /// <returns>对应的值;如果该属性不存在,返回null</returns>
-        public string getProperty(string name) {
+        public string getProperty(string name) 
+        {
             //return (string) ht.get(name);
             return (string)ht[name];
         }
 
-        private static Hashtable parseStream(FileStream inputStream) {
+        private static Hashtable parseStream(FileStream inputStream)
+        {
             Hashtable ht = new Hashtable();
-            byte[] buffer = new byte[128];
+            sbyte[] buffer = new sbyte[128];
             string name, property;
             int b, index;
             while (true) {
@@ -65,15 +69,16 @@ namespace Script.Interpreter.IO
                 }
                 index = 0;
                 do {
-                    buffer[index++] = (byte) b;
+                    buffer[index++] = (sbyte)b;
                     //b = inputStream.read();
                     b = inputStream.ReadByte();
                 } while (b != -1 && b != '=');
                 name = new string(buffer, 0, index).Trim();
                 b = skipCommentAndSpace(inputStream);
                 index = 0;
-                do {
-                    buffer[index++] = (byte) b;
+                do
+                {
+                    buffer[index++] = (sbyte)b;
 
                     //b = inputStream.read();
                     b = inputStream.ReadByte();

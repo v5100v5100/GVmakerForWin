@@ -7,6 +7,6 @@ namespace Script.Interpreter.Ram
 {
     public interface Setable
     {
-        void setByte(int addr, byte b);
+        void setByte(int addr, sbyte b);
     }
 }

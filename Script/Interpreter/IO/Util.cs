@@ -284,7 +284,7 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="array">byte数组</param>
         /// <returns>一个Accessable</returns>
-        public static Accessable asAccessable( byte[] array) {
+        public static Accessable asAccessable( sbyte[] array) {
             return new AccessableImpl(array);
         }
 

@@ -47,7 +47,7 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="rawKeyCode"></param>
         /// <returns></returns>
-        public char translate(int rawKeyCode)
+        public UInt16 translate(int rawKeyCode)
         {
             for (int index = 0; index < keyValues_.Length; index++)
             {

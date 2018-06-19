@@ -57,84 +57,91 @@ namespace Script.Interpreter
         /// <returns>文件号,低8位有效</returns>
         public int fopen(Getable source, int fileName, int openMode);
 
-    /**
-     * 关闭文件
-     * @param fp 需要关闭的文件号
-     */
-    public void fclose(int fp);
+        /// <summary>
+        /// 关闭文件
+        /// 需要关闭的文件号
+        /// </summary>
+        /// <param name="fp"></param>
+        public void fclose(int fp);
 
-    /**
-     * 从指定文件读取一个byte
-     * @param fp 文件号
-     * @return 读取的字符,低八位有效;若失败返回-1
-     */
-    public int getc(int fp);
+        /// <summary>
+        /// 从指定文件读取一个byte
+        /// </summary>
+        /// <param name="fp">文件号</param>
+        /// <returns>读取的字符,低八位有效;若失败返回-1</returns>
+        public int getc(int fp);
 
-    /**
-     * 写入一个字符到指定文件
-     * @param c 要写入的字符,低八位有效
-     * @param fp 文件号
-     * @return 写入的字符,若失败返回-1
-     */
-    public int putc(int c, int fp);
+        /// <summary>
+        /// 写入一个字符到指定文件
+        /// 
+        /// </summary>
+        /// <param name="c">要写入的字符,低八位有效</param>
+        /// <param name="fp">文件号</param>
+        /// <returns>写入的字符,若失败返回-1</returns>
+        public int putc(int c, int fp);
 
-    /**
-     * 读取一段数据
-     * @param addr 数据在dest中保存的开始地址
-     * @param dest 保存数据的Setable
-     * @param size 需要读取数据的长度
-     * @param fp   文件号
-     * @return     读取数据的长度,如发生IO错误或遇文件结尾返回0
-     */
-    public int fread(Setable dest, int addr, int size, int fp);
+        /// <summary>
+        /// 读取一段数据
+        /// </summary>
+        /// <param name="dest">保存数据的Setable</param>
+        /// <param name="addr">数据在dest中保存的开始地址</param>
+        /// <param name="size">需要读取数据的长度</param>
+        /// <param name="fp">文件号</param>
+        /// <returns>读取数据的长度,如发生IO错误或遇文件结尾返回0</returns>
+        public int fread(Setable dest, int addr, int size, int fp);
 
-    /**
-     * 写入一段数据
-     * @param source 需要写入的数据所在的Getable
-     * @param addr   数据在source中的开始地址
-     * @param size   写入数据的长度
-     * @param fp     文件号
-     * @return       写入数据的长度,如发生IO错误或遇到文件结尾返回0
-     */
-    public int fwrite(Getable source, int addr, int size, int fp);
 
-    /**
-     * 删除文件
-     */
-    public bool deleteFile(Getable source, int addr);
+        /// <summary>
+        /// 写入一段数据
+        /// </summary>
+        /// <param name="source">需要写入的数据所在的Getable</param>
+        /// <param name="addr">数据在source中的开始地址</param>
+        /// <param name="size">写入数据的长度</param>
+        /// <param name="fp">文件号</param>
+        /// <returns>写入数据的长度,如发生IO错误或遇到文件结尾返回0</returns>
+        public int fwrite(Getable source, int addr, int size, int fp);
 
-    /**
-     * 文件指针定位
-     * @param fp     文件号
-     * @param offset 编译量
-     * @param base_   基点
-     * @return       定位后的文件指针,若出错返回-1
-     */
-    public int fseek(int fp, int offset, int base_);
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="addr"></param>
+        /// <returns></returns>
+        public bool deleteFile(Getable source, int addr);
 
-    /**
-     * 得到文件指针
-     * @param fp 文件号
-     * @return   文件指针
-     */
-    public int ftell(int fp);
+        /// <summary>
+        /// 文件指针定位
+        /// </summary>
+        /// <param name="fp">文件号</param>
+        /// <param name="offset">编译量</param>
+        /// <param name="base_">基点</param>
+        /// <returns>定位后的文件指针,若出错返回-1</returns>
+        public int fseek(int fp, int offset, int base_);
 
-    /**
-     * 检查文件是否已结束
-     * @param fp 文件号
-     * @return   true,如果已结束;否则false
-     */
-    public bool feof(int fp);
 
-    /**
-     * 文件指针复位
-     * @param fp 文件号
-     */
-    public void rewind(int fp);
+        /// <summary>
+        /// 得到文件指针
+        /// </summary>
+        /// <param name="fp">文件号</param>
+        /// <returns>文件指针</returns>
+        public int ftell(int fp);
 
-    /**
-     * 关闭所有文件,释放占用的资源
-     */
-    public void dispose();
+        /// <summary>
+        /// 检查文件是否已结束
+        /// </summary>
+        /// <param name="fp">文件号</param>
+        /// <returns>true,如果已结束;否则false</returns>
+        public bool feof(int fp);
+
+        /// <summary>
+        /// 文件指针复位
+        /// </summary>
+        /// <param name="fp">文件号</param>
+        public void rewind(int fp);
+
+        /// <summary>
+        /// 关闭所有文件,释放占用的资源
+        /// </summary>
+        public void dispose();
     }
 }

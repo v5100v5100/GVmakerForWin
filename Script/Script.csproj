@@ -56,6 +56,7 @@
     <Compile Include="Interpreter\IO\KeyModelSysInfoImpl.cs" />
     <Compile Include="Interpreter\IO\Properties.cs" />
     <Compile Include="Interpreter\IO\SpellInfo.cs" />
+    <Compile Include="Interpreter\IO\SpellNode.cs" />
     <Compile Include="Interpreter\IO\Util.cs" />
     <Compile Include="Interpreter\IO\VirtualFile.cs" />
     <Compile Include="Interpreter\KeyModel.cs" />

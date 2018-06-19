@@ -7,18 +7,19 @@ namespace Script.Interpreter.Ram
 {
     public class AccessableImpl : Accessable
     {
-        private byte[] array;
+        private sbyte[] array;
 
-        public AccessableImpl(byte[] array)
+        public AccessableImpl(sbyte[] array)
         {
             this.array = array;
         }
 
-        public byte getByte(int addr) {
+        public sbyte getByte(int addr)
+        {
             return array[addr];
         }
 
-        public void setByte(int addr, byte b) 
+        public void setByte(int addr, sbyte b) 
         {
             array[addr] = b;
         }

@@ -12,13 +12,15 @@ namespace Script.Interpreter.IO
     public class SpellInfo
     {
         
-        private SpellInfo() {
+        private SpellInfo()
+        {
         }
 
         /**
          * 得到所有SpellNode的枚举器,其中包含按拼音字典顺序排列的count个SpellNode
          */
-        public static Enumeration list() {
+        public static Enumeration list()
+        {
             return new SpellNodeEnum();
         }
 
@@ -26,7 +28,8 @@ namespace Script.Interpreter.IO
          * 得到不同拼音的数目
          * @return count
          */
-        public static int count() {
+        public static int count() 
+        {
             return SPELL_NODES.Length;
         }
         private static readonly string SPELL_DATA = "/eastsun/jgvm/module/io/res/spell.dat";
@@ -74,15 +77,17 @@ namespace Script.Interpreter.IO
                 for (int index = 0; index < count; index++) 
                 {
                     SpellNode node = tmp[index];
-                    byte[] data = new byte[2 * node.size];
-                    in.read(data);
+                    byte[] data = new byte[2 * node.size()];
+                    //in.read(data);
+                    inputStream.Read(data,0,data.Length);
                     node.setData(data);
                 }
             } catch (IOException ex) {
-                System.exit(-1);
+                //System.exit(-1);
             } finally {
                 try {
-                    in.close();
+                    //in.close();
+                    inputStream.Close();
                 } catch (Exception ex) {
                     //do nothing
                 }
@@ -90,7 +95,8 @@ namespace Script.Interpreter.IO
             SPELL_NODES = tmp;
         }
 
-        private static class SpellNodeEnum implements Enumeration {
+        private static class SpellNodeEnum implements Enumeration
+        {
 
             private int index = 0;
 

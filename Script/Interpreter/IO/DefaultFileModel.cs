@@ -41,7 +41,8 @@ namespace Script.Interpreter.IO
         //用于生成string的byte数组
         private sbyte[] strBuf;
 
-        public DefaultFileModel(FileSystem fileSys) {
+        public DefaultFileModel(FileSystem fileSys)
+        {
             this.fileSys = fileSys;
             workDir = "/";
             workDirInf = fileSys.getFileInf(workDir);
@@ -51,7 +52,8 @@ namespace Script.Interpreter.IO
             files = new VirtualFile[MAX_FILE_COUNT];
             fileNames = new string[MAX_FILE_COUNT];
 
-            for (int index = 0; index < MAX_FILE_COUNT; index++) {
+            for (int index = 0; index < MAX_FILE_COUNT; index++) 
+            {
                 usable[index] = true;
                 //初始容量:64K
                 files[index] = new VirtualFile(0x10000);
@@ -62,8 +64,9 @@ namespace Script.Interpreter.IO
         public bool changeDir(Getable source, int addr) {
             int pre = -2;
             int length = 0;
-            byte b;
-            while ((b = source.getByte(addr)) != 0) {
+            sbyte b = 0;
+            while ((b = source.getByte(addr)) != 0)
+            {
                 if (b == '/') {
                     if (pre != addr - 1) {
                         strBuf[length++] = b;
@@ -78,27 +81,36 @@ namespace Script.Interpreter.IO
             }
             string newDir = null;
             try {
-                newDir = new string(strBuf, 0, length, "gb2312");
+                //newDir = new string(strBuf, 0, length, "gb2312");
+                unsafe
+                {
+                    fixed(sbyte* p_strBuf = strBuf)
+                    {
+                        newDir = new string(p_strBuf, 0, length, Encoding.GetEncoding("gb2312"));
+                    }
+                }
             } catch (UnsupportedEncodingException uee) {
                 newDir = new string(strBuf, 0, length);
             }
-            if (newDir.equals("..")) {
-                if (workDir.equals("/")) {
+            if (newDir == "..")
+            {
+                if (workDir == "/" )
+                {
                     return false;
                 }
-                int pos = workDir.lastIndexOf('/', workDir.length() - 2) + 1;
-                workDir = workDir.substring(0, pos);
+                int pos = workDir.LastIndexOf('/', workDir.Length - 2) + 1;
+                workDir = workDir.Substring(0, pos);
                 workDirInf = fileSys.getFileInf(workDir);
                 return true;
             }
             else {
-                if (!newDir.startsWith("/")) {
+                if (!newDir.StartsWith("/")) {
                     newDir = workDir + newDir;
                 }
-                if (!newDir.endsWith("/")) {
+                if (!newDir.EndsWith("/")) {
                     newDir += "/";
                 }
-                if (workDir.equals(newDir)) {
+                if (workDir == newDir) {
                     return true;
                 }
                 FileSystemInfo inf = fileSys.getFileInf(newDir);
@@ -113,7 +125,8 @@ namespace Script.Interpreter.IO
             }
         }
 
-        public bool makeDir(Getable source, int addr) {
+        public bool makeDir(Getable source, int addr)
+        {
             string dir = getFileName(source, addr);
             bool result = fileSys.makeDir(dir);
             if (result && isParent(workDir, dir)) {
@@ -126,7 +139,8 @@ namespace Script.Interpreter.IO
          * 得到当前目录下的文件个数
          * @return 文件夹个数
          */
-        public int getFileNum() {
+        public int getFileNum() 
+        {
             return workDirInf.getFileNum();
         }
 
@@ -137,11 +151,13 @@ namespace Script.Interpreter.IO
          * @param num   个数
          * @return      实际得到的个数,如出错,返回-1
          */
-        public int listFiles(string[] names, int start, int num) {
+        public int listFiles(string[] names, int start, int num) 
+        {
             return workDirInf.listFiles(names, start, num);
         }
 
-        public int fopen(Getable source, int fileName, int openMode) {
+        public int fopen(Getable source, int fileName, int openMode) 
+        {
             int num = -1;
             //指示文件指针位置,true开头,false为结尾
             bool pointer = true;

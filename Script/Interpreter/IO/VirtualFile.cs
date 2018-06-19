@@ -18,6 +18,7 @@ namespace Script.Interpreter.IO
     /// </summary>
     public class VirtualFile
     {
+
         //每次增量的最小值:128K
         private static readonly int MIN_ADD_CAPS = 0x20000;
         private static readonly int MAX_COUNT = 30;

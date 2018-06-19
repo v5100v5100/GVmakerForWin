@@ -7,6 +7,7 @@ namespace Script.Interpreter.IO
 {
     public class KeyModelSysInfoImpl : KeyModelSysInfo
     {
+
         int left, right, down, up, enter, esc;
         bool hasNumberKey_;
         int[] numberKey = new int[10];

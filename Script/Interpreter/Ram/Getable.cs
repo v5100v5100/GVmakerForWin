@@ -11,6 +11,6 @@ namespace Script.Interpreter.Ram
     /// </summary>
     public interface Getable
     {
-        byte getByte(int addr);
+        sbyte getByte(int addr);
     }
 }

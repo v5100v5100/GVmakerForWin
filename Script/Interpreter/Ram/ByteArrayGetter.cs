@@ -11,14 +11,14 @@ namespace Script.Interpreter
     /// </summary>
     public sealed class ByteArrayGetter : Getable
     {
-        private byte[] buffer_;
+        private sbyte[] buffer_;
 
-        public ByteArrayGetter(byte[] buffer)
+        public ByteArrayGetter(sbyte[] buffer)
         {
             this.buffer_ = buffer;
         }
 
-        public byte getByte(int addr)
+        public sbyte getByte(int addr)
         {
             return buffer_[addr];
         }
