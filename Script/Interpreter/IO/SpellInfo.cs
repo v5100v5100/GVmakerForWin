@@ -71,7 +71,8 @@ namespace Script.Interpreter.IO
                         buffer[n++] = (byte) b;
                     }
                     //String spell = new String(buffer, 0, n);
-                    string spell = new string(buffer , 0 ,n);
+                    string spell = Util.NewString(buffer , 0 ,n);
+
                     tmp[index] = new SpellNode(spell, size);
                 }
                 for (int index = 0; index < count; index++) 
@@ -95,18 +96,18 @@ namespace Script.Interpreter.IO
             SPELL_NODES = tmp;
         }
 
-        private static class SpellNodeEnum implements Enumeration
-        {
+        //private static class SpellNodeEnum implements Enumeration
+        //{
 
-            private int index = 0;
+        //    private int index = 0;
 
-            public boolean hasMoreElements() {
-                return index < SPELL_NODES.length;
-            }
+        //    public boolean hasMoreElements() {
+        //        return index < SPELL_NODES.length;
+        //    }
 
-            public Object nextElement() {
-                return SPELL_NODES[index++];
-            }
-        }
+        //    public Object nextElement() {
+        //        return SPELL_NODES[index++];
+        //    }
+        //}
     }
 }

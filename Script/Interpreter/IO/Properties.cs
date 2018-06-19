@@ -73,7 +73,8 @@ namespace Script.Interpreter.IO
                     //b = inputStream.read();
                     b = inputStream.ReadByte();
                 } while (b != -1 && b != '=');
-                name = new string(buffer, 0, index).Trim();
+                //name = new string(buffer, 0, index).Trim();
+                name = Util.NewString(buffer, 0, index).Trim();
                 b = skipCommentAndSpace(inputStream);
                 index = 0;
                 do
@@ -84,8 +85,8 @@ namespace Script.Interpreter.IO
                     b = inputStream.ReadByte();
 
                 } while (b != -1 && b != 0x0a);
-                property = new string(buffer, 0, index).trim();
-
+                //property = new string(buffer, 0, index).trim();
+                property = Util.NewString(buffer, 0, index).Trim();
 
                 //ht.put(name, property);
                 ht[name] = property;

@@ -36,11 +36,12 @@ namespace Script.Interpreter.IO
         //the index of the next element to be read or written
         private int position_;
 
-        /**
-         * 使用一个初始容量构造VirtualFile
-         * @param size
-         */
-        public VirtualFile(int size) {
+        /// <summary>
+        /// 使用一个初始容量构造VirtualFile
+        /// </summary>
+        /// <param name="size"></param>
+        public VirtualFile(int size)
+        {
             bufs[0] = new byte[size];
             for (int n = 1; n <= MAX_COUNT; n++) {
                 caps[n] = size;
@@ -48,55 +49,64 @@ namespace Script.Interpreter.IO
             count_ = 1;
         }
 
-        /**
-         * 得到该VirtualFile总容量
-         * @return capacity
-         */
-        public int capacity() {
+
+        /// <summary>
+        /// 得到该VirtualFile总容量
+        /// </summary>
+        /// <returns></returns>
+        public int capacity()
+        {
             return caps[count_];
         }
 
-        /**
-         * 得到VirtualFile中实际存储数据的长度,也就是文件的长度
-         * @return length of file
-         */
-        public int limit() {
+        /// <summary>
+        /// 得到VirtualFile中实际存储数据的长度,也就是文件的长度
+        /// </summary>
+        /// <returns></returns>
+        public int limit() 
+        {
             return limit_;
         }
 
-        /**
-         * 得到VirtualFile中的读写指针位置,也就是文件指针
-         * @return position
-         */
-        public int position() {
+        /// <summary>
+        /// 得到VirtualFile中的读写指针位置,也就是文件指针
+        /// </summary>
+        /// <returns></returns>
+        public int position() 
+        {
             return position_;
         }
 
-        /**
-         * 设置文件指针
-         * @param newPos 新的指针位置
-         * @return newPos 设置后的指针,若出错返回-1
-         */
-        public int position(int newPos) {
-            if (newPos < 0 || newPos > limit_) {
+        /// <summary>
+        /// 设置文件指针
+        /// </summary>
+        /// <param name="newPos">新的指针位置</param>
+        /// <returns>设置后的指针,若出错返回-1</returns>
+        public int position(int newPos)
+        {
+            if (newPos < 0 || newPos > limit_)
+            {
                 return -1;
             }
             position_ = newPos;
             //修改index,使其满足caps[index]<=position<caps[index+1]
-            while (index_ < MAX_COUNT && caps[index_] < caps[index_ + 1] && caps[index_ + 1] <= position_) {
+            while (index_ < MAX_COUNT && caps[index_] < caps[index_ + 1] && caps[index_ + 1] <= position_)
+            {
                 index_++;
             }
-            while (caps[index_] > position_) {
+            while (caps[index_] > position_)
+            {
                 index_--;
             }
             return position_;
         }
 
-        /**
-         * 读取文件数据,并且position加1
-         * @return 当前position出的文件内容;若已到文件位(>=limit()),返回-1
-         */
-        public int getc() {
+        /// <summary>
+        /// 读取文件数据,并且position加1
+        /// </summary>
+        /// <returns>当前position出的文件内容;若已到文件位(>=limit()),返回-1</returns>
+        public int getc()
+        {
             if (position_ >= limit_) {
                 return -1;
             }
@@ -108,7 +118,13 @@ namespace Script.Interpreter.IO
             return c;
         }
 
-        public int putc(int ch) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <returns></returns>
+        public int putc(int ch) 
+        {
             if (position_ > limit_) {
                 return -1;
             }
@@ -124,19 +140,19 @@ namespace Script.Interpreter.IO
             return ch;
         }
 
-        /**
-         * 将position,limit清零
-         */
-        public void refresh() {
+        /// <summary>
+        /// 将position,limit清零
+        /// </summary>
+        public void refresh() 
+        {
             index_ = position_ = limit_ = 0;
         }
 
-        /**
-         * 从in读取数据到VirtualFile,初始limit的值为从in读取的数量长度<p>
-         * 操作完成后关闭in
-         * @param in 数据来源
-         * @throws IOException 发生IO错误
-         */
+        /// <summary>
+        /// 从in读取数据到VirtualFile,初始limit的值为从in读取的数量长度<p>
+        /// 操作完成后关闭in
+        /// </summary>
+        /// <param name="inputStream">数据来源</param>
         public void readFromStream(FileStream inputStream)
         {
             limit_ = 0;
@@ -165,12 +181,11 @@ namespace Script.Interpreter.IO
             }
         }
 
-        /**
-         * 将VirtualFile中的内容写入到out<p>
-         * 操作完成后关闭out
-         * @param out 写入目标
-         * @throws IOException 发生IO错误
-         */
+        /// <summary>
+        /// 将VirtualFile中的内容写入到out<p>
+        /// 操作完成后关闭out
+        /// </summary>
+        /// <param name="outputStream"></param>
         public void writeToStream(FileStream outputStream)
         {
             int n = 0;
@@ -184,8 +199,11 @@ namespace Script.Interpreter.IO
             }
             outputStream.Close();
         }
-        //确保至少有minCap大小的内存可用
 
+        /// <summary>
+        /// 确保至少有minCap大小的内存可用
+        /// </summary>
+        /// <param name="minCap"></param>
         private void ensureCapacity(int minCap) {
             if (caps[count_] >= minCap) {
                 return;

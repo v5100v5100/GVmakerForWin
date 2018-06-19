@@ -1,6 +1,7 @@
 ﻿using Script.Interpreter.Ram;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -61,7 +62,8 @@ namespace Script.Interpreter.IO
             strBuf = new sbyte[400];
         }
 
-        public bool changeDir(Getable source, int addr) {
+        public bool changeDir(Getable source, int addr) 
+        {
             int pre = -2;
             int length = 0;
             sbyte b = 0;
@@ -82,15 +84,9 @@ namespace Script.Interpreter.IO
             string newDir = null;
             try {
                 //newDir = new string(strBuf, 0, length, "gb2312");
-                unsafe
-                {
-                    fixed(sbyte* p_strBuf = strBuf)
-                    {
-                        newDir = new string(p_strBuf, 0, length, Encoding.GetEncoding("gb2312"));
-                    }
-                }
-            } catch (UnsupportedEncodingException uee) {
-                newDir = new string(strBuf, 0, length);
+                newDir = Util.NewString(strBuf,0,length,Encoding.GetEncoding("gb2312"));
+            } catch (Exception uee) {
+                newDir = Util.NewString(strBuf,0,length);
             }
             if (newDir == "..")
             {
@@ -103,7 +99,8 @@ namespace Script.Interpreter.IO
                 workDirInf = fileSys.getFileInf(workDir);
                 return true;
             }
-            else {
+            else
+            {
                 if (!newDir.StartsWith("/")) {
                     newDir = workDir + newDir;
                 }
@@ -129,16 +126,17 @@ namespace Script.Interpreter.IO
         {
             string dir = getFileName(source, addr);
             bool result = fileSys.makeDir(dir);
-            if (result && isParent(workDir, dir)) {
+            if (result && isParent(workDir, dir))
+            {
                 workDirInf = fileSys.getFileInf(workDir);
             }
             return result;
         }
 
-        /**
-         * 得到当前目录下的文件个数
-         * @return 文件夹个数
-         */
+        /// <summary>
+        /// 得到当前目录下的文件个数
+        /// </summary>
+        /// <returns>文件的数量</returns>
         public int getFileNum() 
         {
             return workDirInf.getFileNum();
@@ -175,22 +173,25 @@ namespace Script.Interpreter.IO
             string name = getFileName(source, fileName);
             string mode = getstring(source, openMode);
             FileSystemInfo inf = fileSys.getFileInf(name);
-            //System.out.println("fopen: " + name + "," + mode + "," + inf);
-            if (READ_MODE.equals(mode) || READ_B_MODE.equals(mode)) {
+
+            if (READ_MODE == mode || READ_B_MODE == mode) 
+            {
                 if (!(inf.isFile() && inf.canRead())) {
                     return 0;
                 }
                 canRead[num] = true;
                 canWrite[num] = false;
             }
-            else if (READ_PLUS_MODE.equals(mode) || READ_B_PLUS_MODE.equals(mode)) {
+            else if (READ_PLUS_MODE == mode || READ_B_PLUS_MODE == mode)
+            {
                 if (!(inf.isFile() && inf.canRead() && inf.canWrite())) {
                     return 0;
                 }
                 canRead[num] = true;
                 canWrite[num] = true;
             }
-            else if (WRITE_MODE.equals(mode) || WRITE_B_MODE.equals(mode)) {
+            else if (WRITE_MODE == mode || WRITE_B_MODE == mode)
+            {
                 if (inf.isFile() && !inf.canWrite()) {
                     return 0;
                 }
@@ -198,7 +199,8 @@ namespace Script.Interpreter.IO
                 canRead[num] = false;
                 canWrite[num] = true;
             }
-            else if (WRITE_PLUS_MODE.equals(mode) || WRITE_B_PLUS_MODE.equals(mode)) {
+            else if (WRITE_PLUS_MODE == mode || WRITE_B_PLUS_MODE == mode )
+            {
                 if (inf.isFile() && !inf.canWrite()) {
                     return 0;
                 }
@@ -206,7 +208,8 @@ namespace Script.Interpreter.IO
                 canRead[num] = true;
                 canWrite[num] = true;
             }
-            else if (APPEND_MODE.equals(mode) || APPEND_B_MODE.equals(mode)) {
+            else if (APPEND_MODE == mode || APPEND_B_MODE == mode) 
+            {
                 if (!(inf.isFile() && inf.canWrite())) {
                     return 0;
                 }
@@ -214,7 +217,8 @@ namespace Script.Interpreter.IO
                 canWrite[num] = true;
                 pointer = false;
             }
-            else if (APPEND_PLUS_MODE.equals(mode) || APPEND_B_PLUS_MODE.equals(mode)) {
+            else if (APPEND_PLUS_MODE == mode || APPEND_B_PLUS_MODE == mode)
+            {
                 if (!(inf.isFile() && inf.canRead() && inf.canWrite())) {
                     return 0;
                 }            canRead[num] = true;
@@ -225,16 +229,20 @@ namespace Script.Interpreter.IO
                 return 0;
             }
             VirtualFile file = files[num];
-            if (clear) {
+            if (clear) 
+            {
                 file.refresh();
             }
             else {
                 int length = 0;
                 try {
-                    InputStream in = fileSys.getInputStream(name);
-                    file.readFromStream(in);
+                    //InputStream in = fileSys.getInputStream(name);
+                    FileStream inputStream = fileSys.getInputStream(name);
+                    //file.readFromStream(in);
+                    file.readFromStream(inputStream);
                     length = file.limit();
-                    in.close();
+                    //in.close();
+                    inputStream.Close();
                 } catch (Exception ex) {
                     return 0;
                 }
@@ -245,8 +253,10 @@ namespace Script.Interpreter.IO
             return num | 0x80;
         }
 
-        public void fclose(int fp) {
-            if ((fp & 0x80) == 0) {
+        public void fclose(int fp)
+        {
+            if ((fp & 0x80) == 0)
+            {
                 return;
             }
             fp &= 0x7f;
@@ -256,37 +266,51 @@ namespace Script.Interpreter.IO
             if (usable[fp]) {
                 return;
             }
-            if (canWrite[fp]) {
-                try {
-                    OutputStream out = fileSys.getOutputStream(fileNames[fp]);
-                    files[fp].writeToStream(out);
+            if (canWrite[fp])
+            {
+                try 
+                {
+                    //OutputStream out = fileSys.getOutputStream(fileNames[fp]);
+                    FileStream outputStream = fileSys.getOutputStream(fileNames[fp]);
+                    //files[fp].writeToStream(out);
+                    files[fp].writeToStream(outputStream);
                     if (isParent(workDir, fileNames[fp])) {
                         workDirInf = fileSys.getFileInf(workDir);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("Here:" + fileNames[fp] + "," + e.getMessage());
-                //do nothing
+                } catch (Exception e)
+                {
+
                 }
             }
             usable[fp] = true;
         }
 
-        public int getc(int fp) {
-            if ((fp & 0x80) == 0) {
+        public int getc(int fp)
+        {
+            if ((fp & 0x80) == 0)
+            {
                 return -1;
             }
             fp &= 0x7f;
-            if (fp >= MAX_FILE_COUNT) {
+            if (fp >= MAX_FILE_COUNT)
+            {
                 return -1;
             }
-            if (usable[fp] || !canRead[fp]) {
+            if (usable[fp] || !canRead[fp])
+            {
                 return -1;
             }
             return files[fp].getc();
         }
 
-        public int putc(int c, int fp) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="fp"></param>
+        /// <returns></returns>
+        public int putc(int c, int fp)
+        {
             if ((fp & 0x80) == 0) {
                 return -1;
             }
@@ -300,27 +324,49 @@ namespace Script.Interpreter.IO
             return files[fp].putc(c);
         }
 
-        public int fread(Setable dest, int addr, int size, int fp) {
-            if ((fp & 0x80) == 0) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dest"></param>
+        /// <param name="addr"></param>
+        /// <param name="size"></param>
+        /// <param name="fp"></param>
+        /// <returns></returns>
+        public int fread(Setable dest, int addr, int size, int fp)
+        {
+            if ((fp & 0x80) == 0)
+            {
                 return 0;
             }
             fp &= 0x7f;
-            if (fp >= MAX_FILE_COUNT) {
+            if (fp >= MAX_FILE_COUNT) 
+            {
                 return 0;
             }
-            if (usable[fp] || !canRead[fp]) {
+            if (usable[fp] || !canRead[fp])
+            {
                 return 0;
             }
             VirtualFile file = files[fp];
             int count = 0, b;
-            while (count < size && (b = file.getc()) != -1) {
+            while (count < size && (b = file.getc()) != -1) 
+            {
                 dest.setByte(addr++, (byte) b);
                 count++;
             }
             return count;
         }
 
-        public int fwrite(Getable source, int addr, int size, int fp) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="addr"></param>
+        /// <param name="size"></param>
+        /// <param name="fp"></param>
+        /// <returns></returns>
+        public int fwrite(Getable source, int addr, int size, int fp)
+        {
             if ((fp & 0x80) == 0) {
                 return 0;
             }
@@ -343,7 +389,14 @@ namespace Script.Interpreter.IO
             return count;
         }
 
-        public bool deleteFile(Getable source, int addr) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="addr"></param>
+        /// <returns></returns>
+        public bool deleteFile(Getable source, int addr)
+        {
             string file = getFileName(source, addr);
             bool result = fileSys.deleteFile(file);
             //如果当前目录信息被修改,重置之
@@ -353,7 +406,15 @@ namespace Script.Interpreter.IO
             return result;
         }
 
-        public int fseek(int fp, int offset, int base) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fp"></param>
+        /// <param name="offset"></param>
+        /// <param name="base_"></param>
+        /// <returns></returns>
+        public int fseek(int fp, int offset, int base_) 
+        {
             if ((fp & 0x80) == 0) {
                 return -1;
             }
@@ -363,7 +424,8 @@ namespace Script.Interpreter.IO
             }
             VirtualFile file = files[fp];
             int pos = 0;
-            switch (base) {
+            switch (base_)
+            {
                 case SEEK_SET:
                     pos = offset;
                     break;
@@ -379,41 +441,52 @@ namespace Script.Interpreter.IO
             return file.position(pos);
         }
 
-        public int ftell(int fp) {
-            if ((fp & 0x80) == 0) {
+        public int ftell(int fp)
+        {
+            if ((fp & 0x80) == 0)
+            {
                 return -1;
             }
             fp &= 0x7f;
-            if (fp >= MAX_FILE_COUNT || usable[fp]) {
+            if (fp >= MAX_FILE_COUNT || usable[fp]) 
+            {
                 return -1;
             }
             return files[fp].position();
         }
 
-        public bool feof(int fp) {
-            if ((fp & 0x80) == 0) {
+        public bool feof(int fp) 
+        {
+            if ((fp & 0x80) == 0) 
+            {
                 return true;
             }
             fp &= 0x7f;
-            if (fp >= MAX_FILE_COUNT || usable[fp]) {
+            if (fp >= MAX_FILE_COUNT || usable[fp]) 
+            {
                 return true;
             }
             return files[fp].position() == files[fp].limit();
         }
 
-        public void rewind(int fp) {
-            if ((fp & 0x80) == 0) {
+        public void rewind(int fp)
+        {
+            if ((fp & 0x80) == 0)
+            {
                 return;
             }
             fp &= 0x7f;
-            if (fp >= MAX_FILE_COUNT || usable[fp]) {
+            if (fp >= MAX_FILE_COUNT || usable[fp])
+            {
                 return;
             }
             files[fp].position(0);
         }
 
-        public void dispose() {
-            for (int index = 0; index < MAX_FILE_COUNT; index++) {
+        public void dispose() 
+        {
+            for (int index = 0; index < MAX_FILE_COUNT; index++)
+            {
                 fclose(index | 0x80);
             }
         }
@@ -421,26 +494,31 @@ namespace Script.Interpreter.IO
         /**
          * 判断dir是否是file的父目录
          */
-        private bool isParent(string dir, string file) {
-            if (file.startsWith(dir)) {
-                int pos = file.indexOf('/', dir.length());
-                return pos == -1 || pos == file.length() - 1;
+        private bool isParent(string dir, string file)
+        {
+            if (file.StartsWith(dir))
+            {
+                int pos = file.IndexOf('/', dir.Length);
+                return pos == -1 || pos == file.Length - 1;
             }
             return false;
         }
 
-        private string getFileName(Getable src, int addr) {
+        private string getFileName(Getable src, int addr) 
+        {
             string name = getstring(src, addr);
-            if (!name.startsWith("/")) {
+            if (!name.StartsWith("/")) {
                 name = workDir + name;
             }
             return name;
         }
 
-        private string getstring(Getable src, int addr) {
+        private string getstring(Getable src, int addr) 
+        {
             int length = 0;
             byte b;
-            while ((b = src.getByte(addr++)) != 0) {
+            while ((b = src.getByte(addr++)) != 0)
+            {
                 strBuf[length++] = b;
             }
             try {

@@ -19,7 +19,7 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="spell">spell 拼音</param>
         /// <param name="size">spell对应的汉字的gb2312编码组成的数组,内部将直接使用这个数组</param>
-        SpellNode(string spell, int size)
+        public SpellNode(string spell, int size)
         {
             this.spell_ = spell;
             this.size_ = size;
@@ -64,19 +64,19 @@ namespace Script.Interpreter.IO
                 dst.setByte(offset + index, data[id + index]);
                 index++;
             }
-            return index >>> 1;
+            //return index >>> 1;
+            return index >> 1;//这里有问题，稍后再改
         }
 
         public override string toString()
         {
-            String gbStr = null;
-            try
+            string gbStr = null;
+            unsafe
             {
-                gbStr = new string(data, 0, data.Length, "gb2312");
-            }
-            catch (UnsupportedEncodingException ex)
-            {
-                gbStr = "Don't Unsupport GB2312";
+                fixed (sbyte* p_data = data)
+                {
+                    gbStr = new string(p_data, 0, data.Length, Encoding.GetEncoding("gb2312"));
+                }
             }
             return spell_ + ": " + gbStr;
         }

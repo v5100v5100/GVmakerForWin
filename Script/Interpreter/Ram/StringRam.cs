@@ -5,22 +5,26 @@ using System.Text;
 
 namespace Script.Interpreter.Ram
 {
-    public class stringRam : Ram
+    /// <summary>
+    /// 
+    /// </summary>
+    public class StringRam : Ram
     {
         private sbyte[] buffer;
         private int offset, startAddr;
 
-        public stringRam(int size)
+        public StringRam(int size)
         {
             buffer = new sbyte[size];
             offset = 0;
         }
 
-        /**
-         * 从lav文件中读取一个以0结尾的字符串数组
-         * @param source 数据源
-         * @return addr 这个数据保存在stringRam中的地址
-         */
+
+        /// <summary>
+        /// 从lav文件中读取一个以0结尾的字符串数组
+        /// </summary>
+        /// <param name="source">数据源</param>
+        /// <returns>这个数据保存在stringRam中的地址</returns>
         public int addstring(LavApp source)
         {
             int addr = offset + startAddr;
@@ -37,61 +41,68 @@ namespace Script.Interpreter.Ram
             return addr;
         }
 
-        /**
-         * 该Ram不允许直接写内存,只能通过addstring()方法想里面写数据
-         * @throws IndexOutOfBoundsException 调用此方法总是抛出该异常
-         * @see #addstring(LavApp)
-         */
+        /// <summary>
+        /// 该Ram不允许直接写内存,只能通过addstring()方法想里面写数据
+        /// </summary>
+        /// <param name="addr"></param>
+        /// <param name="data"></param>
         public void setByte(int addr, sbyte data)
         {
             //throw new IndexOutOfBoundsException("常字符串不能修改: " + addr);
             throw new IndexOutOfRangeException("常字符串不能修改: " + addr);
         }
+        
 
-        /**
-         * {@inheritDoc}
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int size()
         {
             return buffer.Length;
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int getRamType()
         {
             return RamConst.RAM_string_TYPE;
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int getStartAddr()
         {
             return startAddr;
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="addr"></param>
         public void setStartAddr(int addr)
         {
             startAddr = addr;
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="addr"></param>
+        /// <returns></returns>
         public sbyte getByte(int addr)
         {
             return buffer[addr - startAddr];
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        public void clear()
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Clear()
         {
             offset = 0;
         }

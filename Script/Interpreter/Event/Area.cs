@@ -9,7 +9,7 @@ namespace Script.Interpreter.Event
     /// 用于描述一个矩形区域的类,该类为immutable<p>
     /// 当getWidth()或getHeight()有一个不大于0时,表示一个空的区域
     /// </summary>
-     class Area
+    public class Area
     {
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Script.Interpreter.Event
         /// <param name="y">区域起始y值</param>
         /// <param name="width">区域的宽度</param>
         /// <param name="height">区域的高度</param>
-        Area(int x, int y, int width, int height)
+        public Area(int x, int y, int width, int height)
         {
             this.x = x;
             this.y = y;
@@ -39,32 +39,32 @@ namespace Script.Interpreter.Event
         /// 判断这个Area是否为空
         /// </summary>
         /// <returns></returns>
-        bool isEmpty() 
+        public bool isEmpty() 
         {
             return empty;
         }
 
-        override string Tostring()
+        public override string ToString()
         {
             return "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
         }
 
-        int getHeight() 
+        public int getHeight() 
         {
             return height;
         }
 
-        int getWidth()
+        public int getWidth()
         {
             return width;
         }
 
-        int getY() 
+        public int getY() 
         {
             return y;
         }
 
-        int getX() 
+        public int getX() 
         {
             return x;
         }

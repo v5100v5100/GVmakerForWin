@@ -56,7 +56,7 @@ namespace Script.Interpreter.Ram
             buffer[addr - startAddr] = data;
         }
 
-        public void clear()
+        public void Clear()
         {
             for (int index = buffer.Length - 1; index >= 0; index--)
             {

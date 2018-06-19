@@ -477,5 +477,38 @@ namespace Script.Interpreter.IO
                 //throw new IllegalStateException(ex.toString());
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="length"></param>
+        /// <param name="enc"></param>
+        /// <returns></returns>
+        public static string NewString(sbyte[] data, int startIndex, int length, Encoding enc)
+        {
+            string result = "";
+            unsafe 
+            {
+                fixed(sbyte *p_data = data)
+                {
+                    result = new string(p_data,startIndex,length,enc);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static string NewString(sbyte[] data, int startIndex, int length)
+        {
+            return NewString(data, startIndex, length, Encoding.GetEncoding("gb2312"));
+        }
     }
 }

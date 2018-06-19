@@ -20,23 +20,28 @@ namespace Script.Interpreter.Ram
             this.type = type;
         }
 
-        public ScreenModel getScreenModel() {
+        public ScreenModel getScreenModel() 
+        {
             return screen;
         }
 
-        public int size() {
+        public int size() 
+        {
             return buffer.Length;
         }
 
-        public int getRamType() {
+        public int getRamType()
+        {
             return type;
         }
 
-        public int getStartAddr() {
+        public int getStartAddr()
+        {
             return startAddr;
         }
 
-        public void setStartAddr(int addr) {
+        public void setStartAddr(int addr) 
+        {
             startAddr = addr;
         }
 
@@ -50,8 +55,10 @@ namespace Script.Interpreter.Ram
             buffer[addr - startAddr] = data;
         }
 
-        public void clear() {
-            for (int index = buffer.Length - 1; index >= 0; index--) {
+        public void clear() 
+        {
+            for (int index = buffer.Length - 1; index >= 0; index--)
+            {
                 buffer[index] = 0;
             }
         }

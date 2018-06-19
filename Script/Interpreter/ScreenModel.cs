@@ -23,13 +23,15 @@ namespace Script.Interpreter
         /// 创建一个ScreenModel实例
         /// </summary>
         /// <returns></returns>
-        static ScreenModel newScreenModel() {
+        static ScreenModel newScreenModel()
+        {
             return new ScreenModelImp();
         }
 
         private ScreenChangeListener[] lis;
 
-        protected ScreenModel() {
+        protected ScreenModel()
+        {
             lis = new ScreenChangeListener[0];
         }
 
@@ -38,11 +40,13 @@ namespace Script.Interpreter
         /// 为Screen添加监听器,当Screen的Graph状态发生变化时发生变化时将激发事件
         /// </summary>
         /// <param name="listener">事件监听器</param>
-        public void addScreenChangeListener(ScreenChangeListener listener) {
+        public void addScreenChangeListener(ScreenChangeListener listener) 
+        {
             ScreenChangeListener[] oldValue = lis;
             lis = new ScreenChangeListener[oldValue.Length + 1];
             int index = 0;
-            for (; index < oldValue.Length; index++) {
+            for (; index < oldValue.Length; index++)
+            {
                 lis[index] = oldValue[index];
             }
             lis[index] = listener;
@@ -84,7 +88,7 @@ namespace Script.Interpreter
         /// </summary>
         /// <param name="black">黑</param>
         /// <param name="white">白</param>
-        abstract void setColor(int black, int white);
+        public abstract void setColor(int black, int white);
 
         /// <summary>
         /// 得到屏幕rgb数据<p>
@@ -98,13 +102,13 @@ namespace Script.Interpreter
         /// <param name="rate">图像的放大比例</param>
         /// <param name="circ">可以为0,1,2,3.分别表示不旋转,逆时针旋转90度,180度,270度</param>
         /// <returns>buffer本身</returns>
-        abstract int[] getRGB(int[] buffer, Area area, int rate, int circ);
+        public abstract int[] getRGB(int[] buffer, Area area, int rate, int circ);
 
         /// <summary>
         /// 是否有相关联的显存以及显存缓冲区Ram
         /// </summary>
         /// <returns>当且仅当屏幕大小为160*80时返回true</returns>
-        abstract bool hasRelativeRam();
+        public abstract bool hasRelativeRam();
 
         /// <summary>
         /// 得到与该屏幕显存相关联的Ram,可以将其安装到RamManager中,以使得LAVA程序能够直接访问显存
@@ -113,7 +117,7 @@ namespace Script.Interpreter
         /// throws IllegalStateException 如果hasRelativeRam()返回false
         /// @see #hasRelativeRam()
         /// @see RamManager#install(Ram)
-        abstract RelativeRam getGraphRam();
+        public abstract RelativeRam getGraphRam();
 
         /// <summary>
         /// 得到与屏幕缓冲区相关联的Ram,可以将其安装到RamManager中,以使得LAVA程序能够直接访问屏幕缓冲区
@@ -122,13 +126,13 @@ namespace Script.Interpreter
         /// throws IllegalStateException 如果hasRelativeRam()返回false
         /// see #hasRelativeRam()
         /// see RamManager#install(Ram)
-        abstract RelativeRam getBufferRam();
+        public abstract RelativeRam getBufferRam();
 
         /// <summary>
         /// 获得屏幕绘图接口
         /// </summary>
         /// <returns>render</returns>
-        abstract Renderable getRender();
+        public abstract Renderable getRender();
 
 
         /// <summary>
@@ -137,18 +141,18 @@ namespace Script.Interpreter
         /// </summary>
         /// see #getChangedArea()
         /// see #getRGB(int[],Area,int,int)
-        abstract void refreshArea();
+        public abstract void refreshArea();
 
         /// <summary>
         /// 得到发生改变的屏幕范围
         /// </summary>
         /// <returns></returns>
-        abstract Area getChangedArea();
+        public abstract Area getChangedArea();
 
         /// <summary>
         /// 往改变区域添加add
         /// </summary>
         /// <param name="add"></param>
-        abstract void addToChangedArea(Area add);
+        public abstract void addToChangedArea(Area add);
     }
 }

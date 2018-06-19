@@ -16,37 +16,37 @@ namespace Script.Interpreter.Ram
             buffer = new sbyte[size];
         }
 
-        /**
-         * 得到当前所在函数使用内存区域的起始地址
-         * @return startAddr
-         */
+        /// <summary>
+        /// 得到当前所在函数使用内存区域的起始地址
+        /// </summary>
+        /// <returns></returns>
         public int getRegionStartAddr()
         {
             return regionStartAddr;
         }
 
-        /**
-         * 设置当前函数使用内存的起始地址
-         * @param addr 起始地址
-         */
+        /// <summary>
+        /// 设置当前函数使用内存的起始地址
+        /// </summary>
+        /// <param name="addr">起始地址</param>
         public void setRegionStartAddr(int addr)
         {
             regionStartAddr = addr;
         }
 
-        /**
-         * 得到当前所在函数使用内存区域的结束地址(不包括)
-         * @return startAddr
-         */
+        /// <summary>
+        /// 得到当前所在函数使用内存区域的结束地址(不包括)
+        /// </summary>
+        /// <returns></returns>
         public int getRegionEndAddr()
         {
             return regionEndAddr;
         }
 
-        /**
-         * 设置当前函数使用内存的结束地址
-         * @param addr 起始地址
-         */
+        /// <summary>
+        /// 设置当前函数使用内存的结束地址
+        /// </summary>
+        /// <param name="addr">起始地址</param>
         public void setRegionEndAddr(int addr)
         {
             regionEndAddr = addr;
@@ -82,7 +82,7 @@ namespace Script.Interpreter.Ram
             buffer[addr - startAddr] = data;
         }
 
-        public void clear()
+        public void Clear()
         {
             for (int index = buffer.Length - 1; index >= 0; index--)
             {

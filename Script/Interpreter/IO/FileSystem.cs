@@ -20,7 +20,7 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns>当文件存在且canRead返回true时返回指向该文件的InputStream</returns>
-        public FileStream getInputStream(string fileName);
+        FileStream getInputStream(string fileName);
 
         /// <summary>
         /// 得到该文件的OutputStream以向其写入内容<p>
@@ -29,21 +29,21 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public FileStream getOutputStream(string fileName);
+        FileStream getOutputStream(string fileName);
 
         /// <summary>
          /// 删除文件
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public bool deleteFile(string fileName);
+        bool deleteFile(string fileName);
 
         /// <summary>
         /// 建立文件夹
         /// </summary>
         /// <param name="dirName"></param>
         /// <returns>成功返回true，失败返回false</returns>
-        public bool makeDir(string dirName);
+        bool makeDir(string dirName);
 
         /// <summary>
         /// 得到指定文件/文件夹的相关信息
@@ -51,6 +51,6 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="fileName">文件名</param>
         /// <returns>其相关信息</returns>
-        public FileSystemInfo getFileInf(string fileName);
+        FileSystemInfo getFileInf(string fileName);
     }
 }

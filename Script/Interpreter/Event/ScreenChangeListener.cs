@@ -8,7 +8,7 @@ namespace Script.Interpreter.Event
     /// <summary>
     /// 
     /// </summary>
-    interface ScreenChangeListener
+    public interface ScreenChangeListener
     {
         /// <summary>
         /// 

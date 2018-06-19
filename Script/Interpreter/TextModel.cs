@@ -20,11 +20,12 @@ namespace Script.Interpreter
         private int maxRow,  maxCol;
         private int curRow,  curCol;
         private bool isBigMode;
-        private byte[] buffer;
+        private sbyte[] buffer;
         private Getable getter;
         private RelativeRam ram;
 
-        public TextModel() {
+        public TextModel()
+        {
             //..
         }
 
@@ -33,13 +34,14 @@ namespace Script.Interpreter
         /// 设置用于显示的ScreenModel,并作适当的初始化
         /// </summary>
         /// <param name="screen"></param>
-        public void setScreenModel(ScreenModel screen) {
+        public void setScreenModel(ScreenModel screen)
+        {
             if (screen == null) {
                 //throw new IllegalArgumentException("Screen must't be null!");
             }
             if (this.screen != screen) {
                 this.screen = screen;
-                this.buffer = new byte[(screen.getWidth() / 6) * (screen.getHeight() / 13)];
+                this.buffer = new sbyte[(screen.getWidth() / 6) * (screen.getHeight() / 13)];
                 this.getter = new ByteArrayGetter(buffer);
                 this.ram = new ByteArrayRam(buffer, screen);
                 this.render = screen.getRender();
@@ -91,16 +93,16 @@ namespace Script.Interpreter
                 //如果是一个gb2312字符
                 if (curCol + 1 >= maxCol) {
                     //空位不足,转下一行
-                    buffer[maxCol * curRow + curCol] = (byte) 0x20;
+                    buffer[maxCol * curRow + curCol] = (sbyte) 0x20;
                     curCol = 0;
                     curRow++;
                     if (curRow >= maxRow) {
                         textMoveUp();
                     }
                 }
-                buffer[maxCol * curRow + curCol] = (byte) c;
+                buffer[maxCol * curRow + curCol] = (sbyte) c;
                 curCol++;
-                buffer[maxCol * curRow + curCol] = (byte) (c >>> 8);
+                buffer[maxCol * curRow + curCol] = (sbyte) (c >>> 8);
                 curCol++;
                 if (curCol >= maxCol) {
                     curCol = 0;
@@ -120,9 +122,10 @@ namespace Script.Interpreter
                 case 0x0d:
                     break;
                 default:
-                    buffer[maxCol * curRow + curCol] = (byte) c;
+                    buffer[maxCol * curRow + curCol] = (sbyte) c;
                     curCol++;
-                    if (curCol >= maxCol) {
+                    if (curCol >= maxCol) 
+                    {
                         curCol = 0;
                         curRow++;
                     }
@@ -137,7 +140,8 @@ namespace Script.Interpreter
          * 当m为0时刷新全部文本缓冲区到屏幕<p>
          * @param m 刷新模式
          */
-        public void updateLCD(int m) {
+        public void updateLCD(int m)
+        {
             m &= 0xff;
             //不需要刷新
             if (m == 0xff) {
@@ -203,7 +207,8 @@ namespace Script.Interpreter
         /**
          * 将文本缓冲区内容整体上移一行,curRow--
          */
-        private void textMoveUp() {
+        private void textMoveUp() 
+        {
             if (curRow <= 0) {
                 return;
             }
@@ -213,7 +218,7 @@ namespace Script.Interpreter
                 index++;
             }
             while (index < maxCol * maxRow) {
-                buffer[index++] = (byte) 0;
+                buffer[index++] = (sbyte) 0;
             }
             curRow--;
         }

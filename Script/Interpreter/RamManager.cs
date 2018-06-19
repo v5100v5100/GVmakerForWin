@@ -18,21 +18,29 @@ namespace Script.Interpreter
         public static readonly int SIZE_OF_CHAR = 1;
         public static readonly int SIZE_OF_INT = 2;
         public static readonly int SIZE_OF_LONG = 4;
-        /**
-         * 运行时内存的开始地址
-         */
+
+        /// <summary>
+        /// 运行时内存的开始地址
+        /// </summary>
         public static readonly int START_ADDR = 0x2000;
+        
         private RelativeRam textRam,  graphRam,  bufferRam;
+        
         private ScreenModel screen;
+        
         private RuntimeRam runRam;
+        
         private StringRam strRam;
+        
         private Stack stack;
-        private Ram[] rams = new Ram[3];
+
+        private Ram.Ram[] rams = new Ram.Ram[3];
+        
         private int ramCount;
 
         public RamManager(RuntimeRam runRam, StringRam strRam, Stack stack) {
             if (runRam == null || strRam == null || stack == null) {
-                throw new IllegalArgumentException("param can't be null");
+                //throw new IllegalArgumentException("param can't be null");
             }
             this.stack = stack;
             install(runRam);
@@ -245,7 +253,7 @@ namespace Script.Interpreter
          * 将所有内存模块清零
          */
         public void clear() {
-            runRam.clear();
+            runRam.Clear();
             strRam.clear();
             stack.clear();
             for (int index = 0; index < ramCount; index++) {
@@ -261,43 +269,43 @@ namespace Script.Interpreter
          * @throws IllegalStateException 已经安装了这种类型的内存
          * @see #uninstall
          */
-        public void install(Ram ram) {
+        public void install(Ram.Ram ram) {
             if (ram == null) {
                 return;
             }
             switch (ram.getRamType()) {
-                case Ram.RAM_RUNTIME_TYPE:
+                case RamConst.RAM_RUNTIME_TYPE:
                     if (runRam != null) {
-                        throw new IllegalStateException("Runtime Ram was installed!");
+                        //throw new IllegalStateException("Runtime Ram was installed!");
                     }
                     runRam = (RuntimeRam) ram;
                     break;
 
-                case Ram.RAM_GRAPH_TYPE:
+                case RamConst.RAM_GRAPH_TYPE:
                     if (graphRam != null) {
-                        throw new IllegalStateException("Graph Ram was installed!");
+                        //throw new IllegalStateException("Graph Ram was installed!");
                     }
                     graphRam = (RelativeRam) ram;
                     screen = graphRam.getScreenModel();
                     break;
 
-                case Ram.RAM_BUFFER_TYPE:
+                case RamConst.RAM_BUFFER_TYPE:
                     if (bufferRam != null) {
-                        throw new IllegalStateException("Buffer Ram was installed!");
+                        //throw new IllegalStateException("Buffer Ram was installed!");
                     }
                     bufferRam = (RelativeRam) ram;
                     break;
 
-                case Ram.RAM_STRING_TYPE:
+                case RamConst.RAM_STRING_TYPE:
                     if (strRam != null) {
-                        throw new IllegalStateException("String Ram was installed!");
+                        //throw new IllegalStateException("String Ram was installed!");
                     }
                     strRam = (StringRam) ram;
                     break;
 
-                case Ram.RAM_TEXT_TYPE:
+                case RamConst.RAM_TEXT_TYPE:
                     if (textRam != null) {
-                        throw new IllegalStateException("Text Ram was installed!");
+                        //throw new IllegalStateException("Text Ram was installed!");
                     }
                     textRam = (RelativeRam) ram;
                     break;

@@ -51,7 +51,7 @@ namespace Script.Interpreter
         /// </summary>
         public static int DRAW_COPY_TYPE = 1;
         /// <summary>
-        /// clear,对绘制几何图形有效,使用背景色绘图
+        /// Clear,对绘制几何图形有效,使用背景色绘图
         /// </summary>
         public static int DRAW_CLEAR_TYPE = 0;
     }
@@ -60,7 +60,7 @@ namespace Script.Interpreter
     /// 绘图接口,通过该接口向屏幕或缓冲区绘制图像
     /// 注意:除了refresh方法会激发fireScreenChanged方法外,其他方法均不会自动激发fireScreenChanged
     /// </summary>
-    interface Renderable
+    public interface Renderable
     {
         /// <summary>
         /// 设置绘制属性,可能包括填充/不填充,正常/反色,etc.

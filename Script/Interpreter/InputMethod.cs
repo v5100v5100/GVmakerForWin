@@ -42,13 +42,13 @@ namespace Script.Interpreter
         /// <param name="screen">用于反馈操作过程中的信息</param>
         /// <returns>一个gb2312编码的字符</returns>
         /// 期间线程被中断
-        public char getWord(KeyModel key, ScreenModel screen);
+        char getWord(KeyModel key, ScreenModel screen);
     
         /// <summary>
         /// 设置该输入法的默认输入模式
         /// </summary>
         /// <param name="mode">输入模式</param>
         /// <returns>之前使用的输入模式</returns>
-        public int setMode(int mode);
+        int setMode(int mode);
     }
 }
