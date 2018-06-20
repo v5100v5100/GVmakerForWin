@@ -23,7 +23,7 @@ namespace Script.Interpreter
         /// 创建一个ScreenModel实例
         /// </summary>
         /// <returns></returns>
-        static ScreenModel newScreenModel()
+        public static ScreenModel newScreenModel()
         {
             return new ScreenModelImp();
         }

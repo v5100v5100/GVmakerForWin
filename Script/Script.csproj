@@ -46,6 +46,7 @@
     <Compile Include="Interpreter\Event\Area.cs" />
     <Compile Include="Interpreter\Event\ScreenChangeListener.cs" />
     <Compile Include="Interpreter\FileModel.cs" />
+    <Compile Include="Interpreter\GetableImp.cs" />
     <Compile Include="Interpreter\GvmConfig.cs" />
     <Compile Include="Interpreter\InputMethod.cs" />
     <Compile Include="Interpreter\IO\DefaultFileModel.cs" />

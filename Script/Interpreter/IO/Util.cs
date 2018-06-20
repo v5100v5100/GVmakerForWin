@@ -227,7 +227,7 @@ namespace Script.Interpreter.IO
         /// </summary>
         /// <param name="i">一个整数值</param>
         /// <returns>一个表示gb2312编码的byte数组</returns>
-        public static byte[] intToGB(int i) {
+        public static sbyte[] intToGB(int i) {
             int sign = i < 0 ? 1 : 0;
             if (i < 0) {
                 i = -i;
@@ -237,9 +237,9 @@ namespace Script.Interpreter.IO
             while ((tmp /= 10) > 0) {
                 length++;
             }
-            byte[] data = new byte[sign + length];
+            sbyte[] data = new sbyte[sign + length];
             while (--length >= 0) {
-                data[length + sign] = (byte) (i % 10 + 0x30);
+                data[length + sign] = (sbyte) (i % 10 + 0x30);
                 i /= 10;
             }
             if (sign > 0) {
@@ -301,7 +301,7 @@ namespace Script.Interpreter.IO
         /// <param name="c">字符</param>
         /// <param name="data">用来保存点阵数据,其大小应不小于12或24</param>
         /// <returns>数据字节数</returns>
-        public static int getGB12Data(char c, sbyte[] data)
+        public static int getGB12Data(UInt16 c, sbyte[] data)
         {
             int offset, count;
             sbyte[] buffer;
@@ -349,7 +349,7 @@ namespace Script.Interpreter.IO
         /// <param name="c">字符</param>
         /// <param name="data">用来保存点阵数据,其大小应不小于16或32</param>
         /// <returns>数据字节数</returns>
-        public static int getGB16Data(char c, sbyte[] data)
+        public static int getGB16Data(UInt16 c, sbyte[] data)
         {
             int offset, count;
             sbyte[] buffer;

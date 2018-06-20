@@ -60,7 +60,8 @@ namespace Script.Interpreter
         {
             UInt16 s;
             s = (UInt16)(appData[offset++] & 0xff);
-            s |= (appData[offset++] & 0xff) << 8;
+            //s |= (appData[offset++] & 0xff) << 8;
+            s |= (UInt16) ((appData[offset++] & 0xff) << 8);
             return s;
         }
 

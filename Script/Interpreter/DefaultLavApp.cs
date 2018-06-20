@@ -13,7 +13,9 @@ namespace Script.Interpreter
     public class DefaultLavApp : LavApp
     {
 
-        public DefaultLavApp(FileStream fileStream): base(getDataByInputStream(fileStream)){
+        public DefaultLavApp(FileStream fileStream):
+            base(TypeConverter.ByteArrayToSByteArray(getDataByInputStream(fileStream)))
+        {
 
         }
 

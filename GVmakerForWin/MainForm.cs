@@ -11,9 +11,24 @@ namespace GVmakerForWin
 {
      partial class MainForm : Form
     {
-         MainForm()
+        public MainForm()
         {
             InitializeComponent();
+            mainCanvas.BackColor = Color.White;
+        }
+
+        private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            Keys keys =e.KeyCode;
+            if(keys == Keys.PageUp)
+            {
+
+            }
         }
     }
 }

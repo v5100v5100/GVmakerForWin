@@ -83,19 +83,23 @@ namespace Script.Interpreter
             bufferRam = new ScreenRam(this, bufferData, RamConst.RAM_BUFFER_TYPE);
         }
 
-        public override bool hasRelativeRam() {
+        public override bool hasRelativeRam() 
+        {
             return true;
         }
 
-        public override RelativeRam getGraphRam() {
+        public override RelativeRam getGraphRam() 
+        {
             return graphRam;
         }
 
-        public override RelativeRam getBufferRam() {
+        public override RelativeRam getBufferRam()
+        {
             return bufferRam;
         }
 
-        public void setDrawMode(int m) {
+        public void setDrawMode(int m) 
+        {
             drawMode = m;
             isFill = (m & RENDER_FILL_TYPE) != 0;
             isGraph = (m & RENDER_GRAPH_TYPE) != 0;
@@ -103,24 +107,29 @@ namespace Script.Interpreter
             currData = isGraph ? graphData : bufferData;
         }
 
-        public void drawString(int x, int y, Getable source, int addr) {
+        public void drawString(int x, int y, Getable source, int addr)
+        {
             int length = 0;
-            while (source.getByte(addr + length) != 0) {
+            while (source.getByte(addr + length) != 0) 
+            {
                 length++;
             }
             drawString(x, y, source, addr, length);
         }
 
-        public void drawString(int x, int y, Getable source, int addr, int length) {
+        public void drawString(int x, int y, Getable source, int addr, int length)
+        {
             //这个调用drawRegion时会修改区域,所以这儿不需要再修改区域
             sbyte[] data = isBig ? new sbyte[32] : new sbyte[24];
             int h = isBig ? 16 : 12;
             Getable getter = Util.asAccessable(data);
-            while (length > 0) {
+            while (length > 0)
+            {
                 UInt16 c = (UInt16)(source.getByte(addr++) & 0xff);
                 length--;
                 if (c >= 0x80 && length > 0) {
-                    c |= source.getByte(addr++) << 8;
+                    //c |= source.getByte(addr++) << 8;
+                    c |= (UInt16) (source.getByte(addr++) << 8);
                     length--;
                 }
                 int w = (isBig ? Util.getGB16Data(c, data) : Util.getGB12Data(c, data)) / 2;
@@ -129,7 +138,8 @@ namespace Script.Interpreter
             }
         }
 
-        public void drawRect(int x0, int y0, int x1, int y1) {
+        public void drawRect(int x0, int y0, int x1, int y1)
+        {
             if (x0 > x1) {
                 int tmp = x1;
                 x1 = x0;
@@ -178,27 +188,34 @@ namespace Script.Interpreter
         /**
          * 做水平线
          */
-        private void hLine(int x1, int x2, int y) {
-            if (y < 0 || y >= HEIGHT) {
+        private void hLine(int x1, int x2, int y) 
+        {
+            if (y < 0 || y >= HEIGHT) 
+            {
                 return;
             }
-            if (x1 > x2) {
+            if (x1 > x2) 
+            {
                 int tmp = x1;
                 x1 = x2;
                 x2 = tmp;
             }
-            if (x1 >= WIDTH || x2 < 0) {
+            if (x1 >= WIDTH || x2 < 0) 
+            {
                 return;
             }
-            if (x1 < 0) {
+            if (x1 < 0)
+            {
                 x1 = 0;
             }
-            if (x2 >= WIDTH) {
+            if (x2 >= WIDTH)
+            {
                 x2 = WIDTH - 1;
             }
             int start = BYTES_PER_LINE * y + (x1 >> 3);
             int end = BYTES_PER_LINE * y + (x2 >> 3);
-            for (int index = start; index <= end; index++) {
+            for (int index = start; index <= end; index++)
+            {
                 int mask = 0;
                 if (index == start) {
                     mask |= maskH[x1 & 0x07];
@@ -208,34 +225,39 @@ namespace Script.Interpreter
                 }
                 switch (drawMode & 0x03) {
                     case DRAW_CLEAR_TYPE:
-                        currData[index] &= mask;
+                        //currData[index] &= mask; // vliu注释掉的
                         break;
                     case DRAW_COPY_TYPE:
-                        currData[index] |= ~mask;
+                        //currData[index] |= ~mask;// vliu注释掉的
                         break;
                     case DRAW_NOT_TYPE:
-                        currData[index] ^= ~mask;
+                        //currData[index] ^= ~ mask; // vliu注释掉的
                         break;
                 }
             }
         }
 
-        private void ovalPoint(int ox, int oy, int x, int y) {
+        private void ovalPoint(int ox, int oy, int x, int y)
+        {
             drawPointImp(ox - x, oy - y);
             drawPointImp(ox - x, oy + y);
             drawPointImp(ox + x, oy - y);
             drawPointImp(ox + x, oy + y);
         }
 
-        public void drawOval(int ox, int oy, int a, int b) {
-            if (ox + a < 0 || ox - a >= WIDTH) {
+        public void drawOval(int ox, int oy, int a, int b) 
+        {
+            if (ox + a < 0 || ox - a >= WIDTH)
+            {
                 return;
             }
-            if (oy + b < 0 || oy - b >= HEIGHT) {
+            if (oy + b < 0 || oy - b >= HEIGHT)
+            {
                 return;
             }
             //添加到修改区域
-            if (isGraph) {
+            if (isGraph)
+            {
                 addPoint(Math.Max(0, ox - a), Math.Max(0, oy - b));
                 addPoint(Math.Min(WIDTH - 1, ox + a), Math.Min(HEIGHT - 1, oy + b));
             }
@@ -317,13 +339,13 @@ namespace Script.Interpreter
             int mask = 0x80 >> (x & 0x07);
             switch (drawMode & 0x03) {
                 case DRAW_CLEAR_TYPE:
-                    currData[offset] &= ~mask;
+                    //currData[offset] &= ~mask;//vliu注释掉的
                     break;
                 case DRAW_COPY_TYPE:
-                    currData[offset] |= mask;
+                    //currData[offset] |= mask;//vliu注释掉的
                     break;
                 case DRAW_NOT_TYPE:
-                    currData[offset] ^= mask;
+                    //currData[offset] ^= mask;//vliu注释掉的
                     break;
             }
             return true;
@@ -471,7 +493,7 @@ namespace Script.Interpreter
                     }
                     s &= ~mask;
                     d &= ~mask;
-                    currData[offset + index] &= mask;
+                    //currData[offset + index] &= mask;//vliu注释掉的
                     switch (drawMode & 0x07) {
                         case 2:
                             s ^= ~mask;
@@ -487,7 +509,7 @@ namespace Script.Interpreter
                             break;
 
                     }
-                    currData[offset + index] |= s;
+                    //currData[offset + index] |= s;//vliu注释掉的
                 }//for
 
                 offset += BYTES_PER_LINE;
@@ -513,7 +535,7 @@ namespace Script.Interpreter
                     cur = (data[index + offset] & 1) != 0;
                     data[index + offset] >>= 1;
                     if (pre) {
-                        data[index + offset] |= 0x80;
+                        //data[index + offset] |= 0x80;//vliu注释掉的
                     } else {
                         data[index + offset] &= 0x7f;
                     }
@@ -604,8 +626,8 @@ namespace Script.Interpreter
                         {
                             for (int index = 0; index < BYTES_PER_LINE / 2; index++) {
                                 int tmp = bufferData[byteOffset + BYTES_PER_LINE - 1 - index] & 0xff;
-                                bufferData[byteOffset + BYTES_PER_LINE - 1 - index] = REVERSE_TAB[bufferData[byteOffset + index] & 0xff];
-                                bufferData[byteOffset + index] = REVERSE_TAB[tmp];
+                                //bufferData[byteOffset + BYTES_PER_LINE - 1 - index] = REVERSE_TAB[bufferData[byteOffset + index] & 0xff];//vliu注释掉的
+                                //bufferData[byteOffset + index] = REVERSE_TAB[tmp];//vliu注释掉的
                             }
                             byteOffset += BYTES_PER_LINE;
                         }
