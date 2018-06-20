@@ -386,7 +386,7 @@ namespace Script.Interpreter.IO
         private static sbyte[] gb12Data;
         private static sbyte[] ascii16Data;
         private static sbyte[] ascii12Data;
-        private const int[] sinTab = {
+        private static int[] sinTab = {
             0, 18, 36, 54, 71, 89, 107, 125, 143, 160, 178, 195, 213, 230, 248, 265, 282,
             299, 316, 333, 350, 367, 384, 400, 416, 433, 449, 465, 481, 496, 512, 527,
             543, 558, 573, 587, 602, 616, 630, 644, 658, 672, 685, 698, 711, 724, 737,
@@ -458,8 +458,10 @@ namespace Script.Interpreter.IO
                 //readData(inputStream, gb12Data);
                 //
                 inputStream = new FileStream(Directory.GetCurrentDirectory()+"gbfont.bin",FileMode.Open);
-                gb12Data = new byte[inputStream.Length];
-                readData(inputStream, gb12Data);
+                byte[] gb12Data_ = new byte[inputStream.Length];
+                //gb12Data = new byte[inputStream.Length];
+                readData(inputStream, gb12Data_);
+                gb12Data = TypeConverter.ByteArrayToSByteArray(gb12Data_);
 
 
 
@@ -468,8 +470,11 @@ namespace Script.Interpreter.IO
                 //gb16Data = new byte[in.available()];
                 //readData(inputStream, gb16Data);
                 inputStream = new FileStream(Directory.GetCurrentDirectory()+"gbfont16.bin",FileMode.Open);
-                gb16Data = new byte[inputStream.Length];
-                readData(inputStream,gb16Data);
+                //gb16Data = new byte[inputStream.Length];
+                //readData(inputStream,gb16Data);
+                byte[] gb16Data_ = new byte[inputStream.Length];
+                readData(inputStream,gb12Data_);
+                gb16Data = TypeConverter.ByteArrayToSByteArray(gb16Data_);
 
 
 
@@ -478,8 +483,11 @@ namespace Script.Interpreter.IO
                 //ascii12Data = new byte[in.available()];
                 //readData(inputStream, ascii12Data);
                 inputStream = new FileStream(Directory.GetCurrentDirectory()+"ascii.bin",FileMode.Open);
-                ascii12Data = new byte[inputStream.Length];
-                readData(inputStream, ascii12Data);
+                //ascii12Data = new byte[inputStream.Length];
+                //readData(inputStream, ascii12Data);
+                byte[] ascii12Data_ = new byte[inputStream.Length];
+                readData(inputStream,ascii12Data_);
+                ascii12Data = TypeConverter.ByteArrayToSByteArray(ascii12Data_);
 
 
 
@@ -489,8 +497,11 @@ namespace Script.Interpreter.IO
                 //ascii16Data = new byte[in.available()];
                 //readData(inputStream, ascii16Data);
                 inputStream = new FileStream(Directory.GetCurrentDirectory()+"ascii8.bin",FileMode.Open);
-                ascii16Data = new byte[inputStream.Length];
-                readData(inputStream,ascii16Data);
+                //ascii16Data = new byte[inputStream.Length];
+                //readData(inputStream,ascii16Data);
+                byte[] ascii16Data_ = new byte[inputStream.Length];
+                readData(inputStream, ascii16Data_);
+                ascii16Data = TypeConverter.ByteArrayToSByteArray(ascii16Data_);
 
             } catch (IOException ex) {
                 //throw new IllegalStateException(ex.toString());

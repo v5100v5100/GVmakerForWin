@@ -60,7 +60,7 @@ namespace Script.Interpreter
             return version_;
         }
 
-        public override String toString()
+        public override String ToString()
         {
             return "[Version: 0x" + Convert.ToString(version_, 16) +
                     ",runtimeRamSize: " + runtimeRamSize_ +

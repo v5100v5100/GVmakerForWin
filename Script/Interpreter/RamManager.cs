@@ -91,7 +91,7 @@ namespace Script.Interpreter
          * @see #setByte(int,byte)
          */
         public void setChar(int addr, char c) {
-            setByte(addr, (byte) c);
+            setByte(addr, (sbyte) c);
         }
 
         /**
@@ -138,7 +138,7 @@ namespace Script.Interpreter
          */
         public void setBytes(int addr, int count, int data) {
             while (--count >= 0) {
-                setByte(addr++, (byte) data);
+                setByte(addr++, (sbyte) data);
                 //data >>>= 8;
                 data = TypeConverter.UnsignedRightMove(data,8);
             }
@@ -205,7 +205,8 @@ namespace Script.Interpreter
          * @param addr 地址
          * @return byte数据
          */
-        public sbyte getByte(int addr) {
+        public sbyte getByte(int addr)
+        {
             //Notice: 该实现与resetRamAddress的实现方式有关
             if (addr >= runRam.getStartAddr()) {
                 return runRam.getByte(addr);
@@ -219,7 +220,8 @@ namespace Script.Interpreter
                     return ram.getByte(addr);
                 }
             }
-            throw new IndexOutOfBoundsException("内存读越界:" + addr);
+            return -1;
+            //throw new IndexOutOfBoundsException("内存读越界:" + addr);
         }
 
         /**
@@ -230,7 +232,7 @@ namespace Script.Interpreter
          * @param b 数据
          * @throws IndexOutOfBoundsException 内存写越界
          */
-        public void setByte(int addr, byte b) {
+        public void setByte(int addr, sbyte b) {
             //Notice: 该实现与resetRamAddress的实现方式有关
             if (addr >= runRam.getStartAddr()) {
                 runRam.setByte(addr, b);
@@ -241,13 +243,13 @@ namespace Script.Interpreter
                 return;
             }
             for (int index = ramCount - 1; index >= 0; index--) {
-                Ram ram = rams[index];
+                Ram.Ram ram = rams[index];
                 if (addr >= ram.getStartAddr()) {
                     ram.setByte(addr, b);
                     return;
                 }
             }
-            throw new IndexOutOfBoundsException("内存写越界:" + addr);
+            //throw new IndexOutOfBoundsException("内存写越界:" + addr);
         }
 
         /**
@@ -255,10 +257,10 @@ namespace Script.Interpreter
          */
         public void clear() {
             runRam.Clear();
-            strRam.clear();
+            strRam.Clear();
             stack.clear();
             for (int index = 0; index < ramCount; index++) {
-                rams[index].clear();
+                rams[index].Clear();
             }
 
         }
