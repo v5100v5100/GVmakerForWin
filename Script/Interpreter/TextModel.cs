@@ -59,7 +59,8 @@ namespace Script.Interpreter
         /// 得到用于显示的ScreenModel
         /// </summary>
         /// <returns></returns>
-        public ScreenModel getScreenModel() {
+        public ScreenModel getScreenModel()
+        {
             return screen;
         }
 
@@ -67,7 +68,8 @@ namespace Script.Interpreter
         /// 文本缓冲区是否有关联的Ram
         /// </summary>
         /// <returns>总是true</returns>
-        public bool hasRelativeRam() {
+        public bool hasRelativeRam()
+        {
             return true;
         }
 
@@ -76,7 +78,8 @@ namespace Script.Interpreter
         /// </summary>
         /// <returns>关联的Ram,该Ram内容与文本缓冲区保持同步变化</returns>
         /// IllegalStateException 如果hasRelativeRam()方法返回false
-        public RelativeRam getTextRam() {
+        public RelativeRam getTextRam()
+        {
             return ram;
         }
 
@@ -84,12 +87,15 @@ namespace Script.Interpreter
         /// 往文本缓冲区添加一个gb2312编码的字符,不刷新到屏幕
         /// </summary>
         /// <param name="c"></param>
-        public void addChar(sbyte c) {
-            if (curRow >= maxRow) {
+        public void addChar(UInt16 c)
+        {
+            if (curRow >= maxRow)
+            {
                 //如果已经超出屏幕,将文本缓冲区内容上移一行
                 textMoveUp();
             }
-            if (c > 0xff) {
+            if (c > 0xff) 
+            {
                 //如果是一个gb2312字符
                 if (curCol + 1 >= maxCol) {
                     //空位不足,转下一行

@@ -32,6 +32,12 @@ namespace Script.Interpreter
         //private Date date = new Date();
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cfg"></param>
+        /// <param name="fileModel"></param>
+        /// <param name="keyModel"></param>
         public VirtualMachine(GvmConfig cfg, FileModel fileModel, KeyModel keyModel)
         {
             this.config = cfg;
@@ -57,11 +63,11 @@ namespace Script.Interpreter
             file = fileModel;
         }
 
-        /**
-         * 设置此GVM运行的lav程序文件,并对JGVM做适当的初始化
-         * @param app GVmaker程序
-         * @throws IllegalStateException 如果不支持此app的运行
-         */
+        /// <summary>
+        /// 设置此GVM运行的lav程序文件,并对JGVM做适当的初始化
+        /// 
+        /// </summary>
+        /// <param name="app">GVmaker程序</param>
         public void loadApp(LavApp app)
         {
             if (this.app != null) 
@@ -72,9 +78,9 @@ namespace Script.Interpreter
             end = false;
         }
 
-        /**
-         * 卸去目前执行的app,并释放及清理相应资源
-         */
+        /// <summary>
+        /// 卸去目前执行的app,并释放及清理相应资源
+        /// </summary>
         public void dispose()
         {
             if (this.app == null)
@@ -90,11 +96,20 @@ namespace Script.Interpreter
             this.end = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool isEnd()
         {
             return end;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="im"></param>
+        /// <returns></returns>
         public InputMethod setInputMethod(InputMethod im) 
         {
             InputMethod oldValue = input;
@@ -102,11 +117,9 @@ namespace Script.Interpreter
             return oldValue;
         }
 
-        /**
-         * 运行下一个指令
-         * @throws IllegalStateException 程序已经结束或不支持的操作
-         * @throws InterruptedException 运行期间当前线程被中断
-         */
+        /// <summary>
+        /// 运行下一个指令
+        /// </summary>
         public void nextStep()
         {
             if (isEnd())
@@ -782,31 +795,36 @@ namespace Script.Interpreter
                     break;
                 //strcat
                 case 0xa6:
-                     {
-                        //不会修改显存相关
-                        int src = stack.pop() & 0xffff;
-                        int dst = stack.pop() & 0xffff;
-                        while (ramManager.getByte(dst) != 0) {
-                            dst++;
-                        }
-                        byte b;
-                        do {
-                            b = ramManager.getByte(src++);
-                            ramManager.setByte(dst++, b);
-                        } while (b != 0);
+                    {
+                         //不会修改显存相关
+                         int src = stack.pop() & 0xffff;
+                         int dst = stack.pop() & 0xffff;
+                         while (ramManager.getByte(dst) != 0)
+                         {
+                             dst++;
+                         }
+                         sbyte b;
+                         do 
+                         {
+                             b = ramManager.getByte(src++);
+                             ramManager.setByte(dst++, b);
+                         } while (b != 0);
                     }
                     break;
                 //strchr
                 case 0xa7:
                      {
-                        byte c = (byte) stack.pop();
+                        sbyte c = (sbyte) stack.pop();
                         int addr = stack.pop() & 0xffff;
-                        while (true) {
-                            byte b = ramManager.getByte(addr);
-                            if (b == c) {
+                        while (true)
+                        {
+                            sbyte b = ramManager.getByte(addr);
+                            if (b == c)
+                            {
                                 break;
                             }
-                            if (b == 0) {
+                            if (b == 0)
+                            {
                                 addr = 0;
                                 break;
                             }
@@ -820,7 +838,8 @@ namespace Script.Interpreter
                         int str2 = stack.pop() & 0xffff;
                         int str1 = stack.pop() & 0xffff;
                         int cmp = 0;
-                        while (true) {
+                        while (true) 
+                        {
                             int c1 = ramManager.getChar(str1++);
                             int c2 = ramManager.getChar(str2++);
                             cmp = c1 - c2;
@@ -844,10 +863,10 @@ namespace Script.Interpreter
                             while (true) {
                                 if (ramManager.getByte(s2) == 0) {
                                     addr = str1;
-                                    break caseA9Loop;
+                                    goto caseA9Loop;
                                 }
                                 if (ramManager.getByte(s1) == 0) {
-                                    break caseA9Loop;
+                                    goto caseA9Loop;
                                 }
                                 if (ramManager.getByte(s1) != ramManager.getByte(s2)) {
                                     break;
@@ -879,11 +898,10 @@ namespace Script.Interpreter
                     }
                     break;
                 case 0xac:
-                     {
+                    {
                         int len = (short) stack.pop();
-                        byte b = (byte) stack.pop();
+                        sbyte b = (sbyte) stack.pop();
                         int addr = stack.pop() & 0xffff;
-                        //System.out.println(addr+","+len+","+b);
                         int start = addr;
                         while (--len >= 0) 
                         {
@@ -979,7 +997,7 @@ namespace Script.Interpreter
                 case 0xbb:
                      {
                         //int ms = (int) (System.currentTimeMillis() % 1000);
-                         int ms = (int) Environment.TickCount % 1000;
+                        int ms = (int) ConvertDateTimeToLong(DateTime.Now) % 1000;
                         ms = ms * 256 / 1000;
                         stack.push(ms);
                     }
@@ -1049,16 +1067,26 @@ namespace Script.Interpreter
                 //getTime
                 case 0xc2:
                    {
-                        date.setTime(System.currentTimeMillis());
-                        cal.setTime(date);
-                        int addr = stack.pop() & 0xffff;
-                        ramManager.setBytes(addr, 2, cal.get(Calendar.YEAR));
-                        ramManager.setBytes(addr + 2, 1, cal.get(Calendar.MONTH));
-                        ramManager.setBytes(addr + 3, 1, cal.get(Calendar.DAY_OF_MONTH));
-                        ramManager.setBytes(addr + 4, 1, cal.get(Calendar.HOUR_OF_DAY));
-                        ramManager.setBytes(addr + 5, 1, cal.get(Calendar.MINUTE));
-                        ramManager.setBytes(addr + 6, 1, cal.get(Calendar.SECOND));
-                        ramManager.setBytes(addr + 7, 1, cal.get(Calendar.DAY_OF_WEEK));
+                        //date.setTime(System.currentTimeMillis());
+                        //cal.setTime(date);
+                        //int addr = stack.pop() & 0xffff;
+                        //ramManager.setBytes(addr, 2, cal.get(Calendar.YEAR));
+                        //ramManager.setBytes(addr + 2, 1, cal.get(Calendar.MONTH));
+                        //ramManager.setBytes(addr + 3, 1, cal.get(Calendar.DAY_OF_MONTH));
+                        //ramManager.setBytes(addr + 4, 1, cal.get(Calendar.HOUR_OF_DAY));
+                        //ramManager.setBytes(addr + 5, 1, cal.get(Calendar.MINUTE));
+                        //ramManager.setBytes(addr + 6, 1, cal.get(Calendar.SECOND));
+                        //ramManager.setBytes(addr + 7, 1, cal.get(Calendar.DAY_OF_WEEK));
+                       //////////////////////////////////////////////////////////////////////
+                       DateTime time = DateTime.Now;
+                       int addr = stack.pop() & 0xffff;
+                       ramManager.setBytes(addr, 2, time.Year);
+                       ramManager.setBytes(addr + 2, 1, time.Month);
+                       ramManager.setBytes(addr + 3, 1, time.Day);
+                       ramManager.setBytes(addr + 4, 1, time.Hour);
+                       ramManager.setBytes(addr + 5, 1, time.Minute);
+                       ramManager.setBytes(addr + 6, 1, time.Second);
+                       ramManager.setBytes(addr + 7, 1, Convert.ToInt32(time.DayOfWeek));
                     }
                     break;
                 //setTime
@@ -1071,7 +1099,7 @@ namespace Script.Interpreter
                 case 0xc4:
                      {
                         int mode = stack.pop();
-                        char c;
+                        UInt16 c;
                         if (input == null) {
                             c = key.getchar();
                         }
@@ -1119,11 +1147,18 @@ namespace Script.Interpreter
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public GvmConfig getConfig() {
             return config;
         }
 
+        /// <summary>
+        /// 实现fileList函数
+        /// </summary>
+        /// <returns></returns>
         private int fileList()
         {
             int addr = stack.pop() & 0xffff;
@@ -1131,7 +1166,9 @@ namespace Script.Interpreter
             byte[][] encodes = new byte[count + 1][];
             string[] dirName = new string[1];
             encodes[0] = new byte[]{'.', '.'};
-            for (int index = 0; index < count; index++) {
+            for (int index = 0; index < count; index++)
+            {
+
                 file.listFiles(dirName, index, 1);
                 try {
                     encodes[index + 1] = dirName[0].getBytes("gb2312");
@@ -1150,7 +1187,8 @@ namespace Script.Interpreter
                         RenderableConst.RENDER_GRAPH_TYPE);
                 render.drawRect(0, 0, screen.getWidth(), screen.getHeight());
                 render.setDrawMode(RenderableConst.DRAW_COPY_TYPE | RenderableConst.RENDER_GRAPH_TYPE);
-                for (int row = 0; row < maxRow && row + first <= count; row++) {
+                for (int row = 0; row < maxRow && row + first <= count; row++)
+                {
                     getter.setBuffer(encodes[row + first]);
                     render.drawString(0, row * 13, getter, 0, encodes[row + first].Length);
                 }
@@ -1208,7 +1246,8 @@ namespace Script.Interpreter
             }
         }
 
-        private void notifyRamChanged(int start, int end) {
+        private void notifyRamChanged(int start, int end)
+        {
             Area area = ramManager.intersectWithGraph(start, end);
             if (!area.isEmpty()) {
                 screen.addToChangedArea(area);
@@ -1216,8 +1255,10 @@ namespace Script.Interpreter
             }
         }
 
-        private void notifyScreenListener(int type) {
-            if ((type & RenderableConst.RENDER_GRAPH_TYPE) != 0) {
+        private void notifyScreenListener(int type)
+        {
+            if ((type & RenderableConst.RENDER_GRAPH_TYPE) != 0)
+            {
                 screen.fireScreenChanged();
             }
         }
@@ -1225,7 +1266,8 @@ namespace Script.Interpreter
         /// <summary>
         /// 
         /// </summary>
-        private void sprintf() {
+        private void sprintf()
+        {
             int paramCount = stack.pop() & 0xff;
             //弹出参数
             stack.movePointer(-paramCount);
@@ -1281,9 +1323,10 @@ namespace Script.Interpreter
 
 
         /// <summary>
-        /// 
+        /// printf函数的实现
         /// </summary>
-        private void printf() {
+        private void printf()
+        {
             int paramCount = stack.pop() & 0xff;
             //弹出参数
             stack.movePointer(-paramCount);
@@ -1291,63 +1334,70 @@ namespace Script.Interpreter
             //格式化字符串起始地址
             int addr = stack.peek(index++) & 0xffff;
             sbyte fstr, data, b;
-            char c;
-            while ((fstr = ramManager.getByte(addr++)) != 0) {
-                if (fstr == 0x25) {
+            UInt16 c;
+            while ((fstr = ramManager.getByte(addr++)) != 0)
+            {
+                if (fstr == 0x25)
+                {
                     //%
                     data = ramManager.getByte(addr++);
-                    if (data == 0) {
+                    if (data == 0)
+                    {
                         break;
                     }
-                    switch (data) {
+                    switch (data)
+                    {
                         //%d
                         case 0x64:
-                             {
+                            {
+
                                 sbyte[] array = Util.intToGB(stack.peek(index++));
-                                for (int k = 0; k < array.Length; k++) {
-                                    text.addChar((char) array[k]);
+                                for (int k = 0; k < array.Length; k++) 
+                                {
+                                    text.addChar((UInt16)array[k]);
                                 }
                             }
                             break;
                         //%c
                         case 0x63:
-                            text.addChar((char) (stack.peek(index++) & 0xff));
+                            text.addChar((UInt16)(stack.peek(index++) & 0xff));
                             break;
                         //%s
                         case 0x73:
-                             {
+                            {
                                 int strAddr = stack.peek(index++) & 0xffff;
                                 while ((b = ramManager.getByte(strAddr++)) != 0) {
                                     if (b >= 0) {
-                                        text.addChar((char) b);
+                                        text.addChar((UInt16)b);
                                     }
                                     else {
-                                        c = (char) (b & 0xff);
+                                        c = (UInt16) (b & 0xff);
                                         b = ramManager.getByte(strAddr++);
                                         if (b == 0) {
                                             text.addChar(c);
                                             break;
                                         }
-                                        c |= b << 8;
+                                        //c |= b << 8;
+                                        c |= ((UInt16)b) << 8;
                                         text.addChar(c);
                                     }
                                 }
                             }
                             break;
                         default:
-                            text.addChar((char) (data & 0xff));
+                            text.addChar((UInt16)(data & 0xff));
                             break;
                     }//switch
 
                 }
                 else if (fstr > 0)
                 {
-                    text.addChar((char) fstr);
+                    text.addChar((UInt16)fstr);
                 }
                 else {
                     b = ramManager.getByte(addr++);
                     if (b == 0) {
-                        text.addChar((char) (fstr & 0xff));
+                        text.addChar((UInt16)(fstr & 0xff));
                         break;
                     }
                     c = (char) ((fstr & 0xff) | (b << 8));
@@ -1357,12 +1407,29 @@ namespace Script.Interpreter
             text.updateLCD(0);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="black"></param>
+        /// <param name="white"></param>
         public void setColor(int black, int white) {
             screen.setColor(black, white);
         }
 
         public void addScreenChangeListener(ScreenChangeListener listener) {
             screen.addScreenChangeListener(listener);
+        }
+
+        /// <summary>
+        /// 将时间转换成Unix时间戳
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public static long ConvertDateTimeToLong(System.DateTime time)
+        {
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
+            long t = (time.Ticks - startTime.Ticks) / 10000;//除10000调整为13位      
+            return t;
         }
     }
 }

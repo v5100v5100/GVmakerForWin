@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Script.Interpreter
 {
-    class FileModelConst 
+    public class FileModelConst 
     {
         /// <summary>
         /// 文件名的最大长度(指转化为gb2312编码后的长度)
@@ -16,7 +16,7 @@ namespace Script.Interpreter
     /// <summary>
     /// 文件系统,实现GVM中的各种文件操作功能
     /// </summary>
-    interface FileModel
+    public interface FileModel
     {
         /// <summary>
         /// 改变当前工作目录

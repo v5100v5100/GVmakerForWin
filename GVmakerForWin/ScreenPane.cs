@@ -17,8 +17,11 @@ namespace GVmakerForWin
         private bool mOptimize=false;
         public ScreenPane(VirtualMachine gvm)
         {
-    	    mBitmap = Bitmap.createBitmap(ScreenModel.WIDTH, ScreenModel.HEIGHT, Bitmap.Config.ARGB_8888);
-            gvm.setColor(0xff000000, 0xffdfffdf);
+    	    mBitmap =new Bitmap(ScreenModel.WIDTH, ScreenModel.HEIGHT);
+            //gvm.setColor(0xff000000, 0xffdfffdf);
+            int black = Convert.ToInt32(0xff000000);
+            int white = Convert.ToInt32(0xffdfffdf);
+            gvm.setColor(black, white);
             mBufferRect = new Rectangle(0, 0, ScreenModel.WIDTH, ScreenModel.HEIGHT);
             setSize(ScreenModel.WIDTH, ScreenModel.HEIGHT);
         }
@@ -50,10 +53,14 @@ namespace GVmakerForWin
     	    mScreenRect = new Rectangle( 0, 0, 
     						        (int)(mScaleCurrent * mBufferRect.Right), 
     						        (int)(mScaleCurrent * mBufferRect.Bottom));
-    	    mScreenRect.Left = (width - mScreenRect.Right) / 2;
-    	    mScreenRect.Right += mScreenRect.Left;
-    	    mScreenRect.Top = (height - mScreenRect.Bottom) / 2;
-    	    mScreenRect.Bottom += mScreenRect.Top;
+            //mScreenRect.Left = (width - mScreenRect.Right) / 2;
+            //mScreenRect.Right += mScreenRect.Left;
+            //mScreenRect.Top = (height - mScreenRect.Bottom) / 2;
+            //mScreenRect.Bottom += mScreenRect.Top;
+            mScreenRect.X = (width - mScreenRect.Right) / 2;
+            mScreenRect.Y = (height - mScreenRect.Bottom) / 2;
+            mScreenRect.Width = mScreenRect.X;
+            mScreenRect.Height = mScreenRect.Y;
         }
 
         /// <summary>
@@ -79,7 +86,7 @@ namespace GVmakerForWin
         public void refresh(Graphics graphics, Area area) 
         {
             //canvas.drawBitmap(mBitmap, mBufferRect, mScreenRect, null);
-            graphics.DrawImage(mBitmap, mBufferRect, mScreenRect,null);
+            graphics.DrawImage(mBitmap, mScreenRect, mBufferRect.X, mBufferRect.Y,mBufferRect.Width,mBufferRect.Height, null);
         }
 
         /// <summary>

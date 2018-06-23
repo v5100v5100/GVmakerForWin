@@ -47,9 +47,9 @@ namespace Script.Interpreter
         /// 注意,这里返回值是char类型,对应lav的char类型,因为lav的char类型是无符号的.
         /// </summary>
         /// <returns></returns>
-        public char getChar()
+        public UInt16 getChar()
         {
-            return (char) (appData[offset++] & 0xff);
+            return (UInt16) (appData[offset++] & 0xff);
         }
 
         /// <summary>
